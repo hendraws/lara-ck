@@ -23,6 +23,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('admin.dashboard');
+    }
+
+    public function cek()
+    {
+        return redirect()->action([HomeController::class, 'index']);
     }
 }
