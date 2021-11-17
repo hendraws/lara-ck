@@ -11,7 +11,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ url('under-contruction') }}" class="nav-link">
+            <a href="{{ action('UserController@index') }}" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                     Manajemen Pengguna
@@ -44,7 +44,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{ url('under-contruction') }}" class="nav-link">
+                    <a href="{{ action('ProgramAkademikController@index') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Program Akademik</p>
                     </a>

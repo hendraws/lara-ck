@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ProgramAkademik;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class ProgramAkademikController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,11 +16,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::paginate(50);
-
-            return view('admin.user.table', compact('data'));
+            $data = ProgramAkademik::paginate(50);
+            return view('admin.program_akademik.table', compact('data'));
         }
-        return view('admin.user.index');
+        return view('admin.program_akademik.index');
+
     }
 
     /**
@@ -32,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.user.create_modal');
+        return view('admin.program_akademik.create_modal');
     }
 
     /**
@@ -43,19 +41,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        $user = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'is_active' => 'required',
+        $program = $request->validate([
+            'nama_program' => 'required|string|max:255',
         ]);
 
         DB::beginTransaction();
         try {
-            $user['username'] = Str::slug($request->name);
-            $user['password'] = Hash::make($request->password);
-            User::create($user);
+            $program['created_by'] = auth()->user()->id;
+            ProgramAkademik::create($program);
         } catch (\Exception $e) {
             DB::rollback();
             toastr()->error($e->getMessage(), 'Error');
@@ -68,16 +61,16 @@ class UserController extends Controller
 
         DB::commit();
         toastr()->success('Data telah ditambahkan', 'Berhasil');
-        return redirect(action('UserController@index'));
+        return redirect(action('ProgramAkademikController@index'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\ProgramAkademik  $programAkademik
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ProgramAkademik $programAkademik)
     {
         //
     }
@@ -85,35 +78,32 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\ProgramAkademik  $programAkademik
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $manajemen_pengguna)
+    public function edit(ProgramAkademik $programAkademik)
     {
-
-        return view('admin.user.edit_modal', compact('manajemen_pengguna'));
+        return view('admin.program_akademik.edit_modal', compact('programAkademik'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\ProgramAkademik  $programAkademik
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $manajemen_pengguna)
+    public function update(Request $request, ProgramAkademik $programAkademik)
     {
-        $user = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$manajemen_pengguna->id,
-            'is_active' => 'required',
+        $program = $request->validate([
+            'nama_program' => 'required|string|max:255',
         ]);
 
         DB::beginTransaction();
         try {
-            // $user['username'] = Str::slug($request->name);
-            // $user['password'] = Hash::make($request->password);
-            $manajemen_pengguna->update($user);
+            // $program['username'] = Str::slug($request->name);
+            $program['updated_by'] = auth()->user()->id;
+            $programAkademik->update($program);
         } catch (\Exception $e) {
             DB::rollback();
             toastr()->error($e->getMessage(), 'Error');
@@ -126,17 +116,19 @@ class UserController extends Controller
 
         DB::commit();
         toastr()->success('Data telah diubah', 'Berhasil');
-        return redirect(action('UserController@index'));
+        return redirect(action('ProgramAkademikController@index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\ProgramAkademik  $programAkademik
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ProgramAkademik $programAkademik)
     {
-        //
+        $programAkademik->delete();
+    	$result['code'] = '200';
+    	return response()->json($result);
     }
 }

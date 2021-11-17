@@ -19,8 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('/',[App\Http\Controllers\HomeController::class, 'cek']);
-    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::resource('/manajemen-pengguna', App\Http\Controllers\UserController::class);
+	Route::get('/','HomeController@cek');
+    Route::get('/dashboard', 'HomeController@index')->name('home');
+    Route::resource('/manajemen-pengguna', 'UserController');
+    Route::resource('/master/program-akademik', 'ProgramAkademikController');
 });
 Route::view('under-contruction', 'maintance');
