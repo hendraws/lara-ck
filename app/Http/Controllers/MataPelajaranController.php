@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MataPelajaran;
 use Illuminate\Http\Request;
+use App\Models\MataPelajaran;
+use Illuminate\Support\Facades\DB;
 
 class MataPelajaranController extends Controller
 {
@@ -12,9 +13,13 @@ class MataPelajaranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $data = MataPelajaran::paginate(50);
+            return view('admin.matapelajaran.table', compact('data'));
+        }
+        return view('admin.matapelajaran.index');
     }
 
     /**
@@ -24,7 +29,7 @@ class MataPelajaranController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.matapelajaran.create_modal');
     }
 
     /**
@@ -35,7 +40,27 @@ class MataPelajaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $mapel = $request->validate([
+            'nama_mapel' => 'required|string|max:255',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $mapel['created_by'] = auth()->user()->id;
+            MataPelajaran::create($mapel);
+        } catch (\Exception $e) {
+            DB::rollback();
+            toastr()->error($e->getMessage(), 'Error');
+            return back();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            toastr()->error($e->getMessage(), 'Error');
+            throw $e;
+        }
+
+        DB::commit();
+        toastr()->success('Data telah ditambahkan', 'Berhasil');
+        return redirect(action('MataPelajaranController@index'));
     }
 
     /**
@@ -55,9 +80,9 @@ class MataPelajaranController extends Controller
      * @param  \App\Models\MataPelajaran  $mataPelajaran
      * @return \Illuminate\Http\Response
      */
-    public function edit(MataPelajaran $mataPelajaran)
+    public function edit(MataPelajaran $matapelajaran)
     {
-        //
+        return view('admin.matapelajaran.edit_modal', compact('matapelajaran'));
     }
 
     /**
@@ -67,19 +92,41 @@ class MataPelajaranController extends Controller
      * @param  \App\Models\MataPelajaran  $mataPelajaran
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MataPelajaran $mataPelajaran)
+    public function update(Request $request, MataPelajaran $matapelajaran)
     {
-        //
+        $mapel = $request->validate([
+            'nama_mapel' => 'required|string|max:255',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $mapel['updated_by'] = auth()->user()->id;
+            $matapelajaran->update($mapel);
+        } catch (\Exception $e) {
+            DB::rollback();
+            toastr()->error($e->getMessage(), 'Error');
+            return back();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            toastr()->error($e->getMessage(), 'Error');
+            throw $e;
+        }
+
+        DB::commit();
+        toastr()->success('Data telah diubah', 'Berhasil');
+        return redirect(action('MataPelajaranController@index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MataPelajaran  $mataPelajaran
+     * @param  \App\Models\MataPelajaran  $matapelajaran
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MataPelajaran $mataPelajaran)
+    public function destroy(MataPelajaran $matapelajaran)
     {
-        //
+        $matapelajaran->delete();
+    	$result['code'] = '200';
+    	return response()->json($result);
     }
 }

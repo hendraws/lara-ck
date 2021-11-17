@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class MataPelajaran extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['nama_mapel', 'created_by',  'updated_by',];
+
+
 }
