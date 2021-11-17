@@ -50,7 +50,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('under-contruction') }}" class="nav-link">
+                    <a href="{{ action('KelasController@index') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Kelas</p>
                     </a>

@@ -23,5 +23,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', 'HomeController@index')->name('home');
     Route::resource('/manajemen-pengguna', 'UserController');
     Route::resource('/master/program-akademik', 'ProgramAkademikController');
+    Route::resource('/master/kelas', 'KelasController');
 });
 Route::view('under-contruction', 'maintance');
