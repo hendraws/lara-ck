@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,10 +20,19 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('/','HomeController@cek');
+    Route::get('/', 'HomeController@cek');
     Route::get('/dashboard', 'HomeController@index')->name('home');
     Route::resource('/manajemen-pengguna', 'UserController');
     Route::resource('/master/program-akademik', 'ProgramAkademikController');
     Route::resource('/master/kelas', 'KelasController');
 });
 Route::view('under-contruction', 'maintance');
+Route::get('reboot', function () {
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+});
+Route::get('migrate', function () {
+    Artisan::call('migrate');
+});
