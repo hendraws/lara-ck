@@ -32,7 +32,7 @@
 @endsection
 @section('content')
     <div class="card card-accent-primary border-primary shadow-sm table-responsive">
-        <form method="POST" action="{{ action('SoalController@store') }}">
+        <form method="POST" action="{{ action('SoalController@store') }}" enctype='multipart/form-data'>
             @csrf
             <div class="card-body">
                 <div class="form-group row">
