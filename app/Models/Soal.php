@@ -1,0 +1,13 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Soal extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [ 'mata_pelajaran_id', 'pertanyaan', 'jawaban_benar', 'pertanyaan_gambar', 'jawaban_gambar', 'created_by', 'updated_by',];
+}

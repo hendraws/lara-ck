@@ -11,5 +11,7 @@ class MataPelajaran extends Model
 
     protected $fillable = ['nama_mapel', 'created_by',  'updated_by',];
 
-
+    public function getSoal(){
+        return $this->hasMany(Soal::class, 'id','mata_pelajaran_id');
+    }
 }

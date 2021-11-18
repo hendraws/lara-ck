@@ -19,7 +19,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ url('under-contruction') }}" class="nav-link">
+            <a href="{{ action('SoalController@index') }}" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                     Bank Soal
