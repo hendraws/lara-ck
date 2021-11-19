@@ -8,13 +8,15 @@
         </thead>
         <tbody>
             @forelse ($data as $item)
-                <tr class="text-center">
-                    <td rowspan="2">{{ $loop->index() + 1 }}</td>
-                    <td>{{ $item->pertanyaan }}</td>
+                <tr>
+                    <td rowspan="2">{{ $loop->index + 1 }}</td>
+                    <td colspan="5">{{ $item->pertanyaan }}</td>
                     <td rowspan="2">{{ $item->pertanyaan }}</td>
                 </tr>
-                <tr class="text-center">
-                    <td>100</td>
+                <tr>
+                    @foreach ($item->getJawaban as $v )
+                        <td class= "{{ $v->benar == 'Y' ? 'text-dark bg-success ' : '' }}">{{ $v->pilihan }}. {{ $v->jawaban }}</td>
+                    @endforeach
                 </tr>
             @empty
                 <tr>

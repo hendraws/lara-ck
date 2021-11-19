@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Soal;
 use Illuminate\Http\Request;
 use App\Models\MataPelajaran;
+use App\Models\SoalPilihanGanda;
+use Illuminate\Support\Facades\DB;
 
 class SoalController extends Controller
 {
@@ -38,7 +40,43 @@ class SoalController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        DB::beginTransaction();
+        try {
+            // dd($request);
+            for($i=1; $i <= count($request->pertanyaan); $i++ ){
+                $dataSoal['mata_pelajaran_id'] = $request->mapel_id;
+                $dataSoal['pertanyaan'] = $request->pertanyaan[$i];
+                $dataSoal['pertanyaan'] = $request->pertanyaan[$i];
+                $dataSoal['jawaban_benar'] = $request->jawaban_benar;
+                $dataSoal['created_by'] = auth()->user()->id;
+                $soal =  Soal::create($dataSoal);
+
+                foreach($request->jawaban[$i] as $k => $v){
+                    $dataJawaban['soal_id'] = $soal->id;
+                    $dataJawaban['pilihan'] = $k;
+                    $dataJawaban['jawaban'] = $v;
+                    $dataJawaban['bobot_nilai'] = $request->bobot[$i][$k];
+                    $dataJawaban['benar'] = $request->jawaban_benar == $k ? 'Y' : 'N';
+                    SoalPilihanGanda::create($dataJawaban);
+                    // dd($request->bobot[$i][$k], $dataJawaban);
+                }
+                // dd($request);
+            }
+            // $mapel['created_by'] = auth()->user()->id;
+            // MataPelajaran::create($mapel);
+        } catch (\Exception $e) {
+            DB::rollback();
+            toastr()->error($e->getMessage(), 'Error');
+            return back();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            toastr()->error($e->getMessage(), 'Error');
+            throw $e;
+        }
+
+        DB::commit();
+        toastr()->success('Data telah ditambahkan', 'Berhasil');
+        return redirect(action('SoalController@show', $request->mapel_id));
     }
 
     /**

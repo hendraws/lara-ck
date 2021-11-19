@@ -32,7 +32,7 @@
 @endsection
 @section('content')
     <div class="card card-accent-primary border-primary shadow-sm table-responsive">
-        <form method="POST" action="{{ action('SoalController@store') }}" enctype='multipart/form-data'>
+        <form method="POST" action="{{ action('SoalController@store') }}" enctype='multipart/form-data'b  >
             @csrf
             <div class="card-body">
                 <div class="form-group row">
@@ -62,14 +62,14 @@
                                                 value="option1" checked data-type="textarea" data-number="1"
                                                 data-pilihan="a">
                                             <textarea class="form-control" id="textarea-a-1" rows="1"
-                                                name="jawaban_a[1]"></textarea>
+                                                name="jawaban[1][a]"></textarea>
                                         </div>
                                         <div class="form-check mt-1">
                                             <input class="form-check-input check-input" type="radio" name="radioJawabanA[1]"
                                                 value="option2" data-type="file" data-number="1" data-pilihan="a">
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="file-a-1"
-                                                    name="jawaban_a[1]">
+                                                    name="jawaban[1][a]">
                                                 <label class="custom-file-label" for="file-a-1">Choose file</label>
                                             </div>
                                         </div>
@@ -77,7 +77,7 @@
                                             <div class="form-group row">
                                                 <label for="bobot" class="col-sm-2 col-form-label">Bobot Jawaban</label>
                                                 <div class="col-sm-4">
-                                                    <input type="number" class="form-control" name="bobot_a[1]">
+                                                    <input type="number" class="form-control" name="bobot[1][a]">
                                                 </div>
                                             </div>
                                         </div>
@@ -90,13 +90,13 @@
                                         <input class="form-check-input check-input" type="radio" name="radioJawabanB[1]"
                                             value="option1" checked data-type="textarea" data-number="1" data-pilihan="b">
                                         <textarea class="form-control" id="textarea-b-1" rows="1"
-                                            name="jawaban_b[1]"></textarea>
+                                            name="jawaban[1][b]"></textarea>
                                     </div>
                                     <div class="form-check mt-1">
                                         <input class="form-check-input check-input" type="radio" name="radioJawabanB[1]"
                                             value="option2" data-type="file" data-number="1" data-pilihan="b">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file-b-1" name="jawaban_b[1]">
+                                            <input type="file" class="custom-file-input" id="file-b-1" name="jawaban[1][b]">
                                             <label class="custom-file-label" for="file-b-1">Choose file</label>
                                         </div>
                                     </div>
@@ -104,7 +104,7 @@
                                         <div class="form-group row">
                                             <label for="bobot" class="col-sm-2 col-form-label">Bobot Jawaban</label>
                                             <div class="col-sm-4">
-                                                <input type="number" class="form-control" name="bobot_b[1]">
+                                                <input type="number" class="form-control" name="bobot[1][b]">
                                             </div>
                                         </div>
                                     </div>
@@ -117,13 +117,13 @@
                                         <input class="form-check-input check-input" type="radio" name="radioJawabanC[1]"
                                             value="option1" checked data-type="textarea" data-number="1" data-pilihan="c">
                                         <textarea class="form-control" id="textarea-c-1" rows="1"
-                                            name="jawaban_c[1]"></textarea>
+                                            name="jawaban[1][c]"></textarea>
                                     </div>
                                     <div class="form-check mt-1">
                                         <input class="form-check-input check-input" type="radio" name="radioJawabanC[1]"
                                             value="option2" data-type="file" data-number="1" data-pilihan="c">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file-c-1" name="jawaban_c[1]">
+                                            <input type="file" class="custom-file-input" id="file-c-1" name="jawaban[1][c]">
                                             <label class="custom-file-label" for="file-c-1">Choose file</label>
                                         </div>
                                     </div>
@@ -131,7 +131,7 @@
                                         <div class="form-group row">
                                             <label for="bobot" class="col-sm-2 col-form-label">Bobot Jawaban</label>
                                             <div class="col-sm-4">
-                                                <input type="number" class="form-control" name="bobot_c[1]">
+                                                <input type="number" class="form-control" name="bobot[1][c]">
                                             </div>
                                         </div>
                                     </div>
@@ -144,13 +144,13 @@
                                         <input class="form-check-input check-input" type="radio" name="radioJawabanD[1]"
                                             value="option1" checked data-type="textarea" data-number="1" data-pilihan="d">
                                         <textarea class="form-control" id="textarea-d-1" rows="1"
-                                            name="jawaban_d[1]"></textarea>
+                                            name="jawaban[1][d]"></textarea>
                                     </div>
                                     <div class="form-check mt-1">
                                         <input class="form-check-input check-input" type="radio" name="radioJawabanD[1]"
                                             value="option2" data-type="file" data-number="1" data-pilihan="d">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file-d-1" name="jawaban_d[1]">
+                                            <input type="file" class="custom-file-input" id="file-d-1" name="jawaban[1][d]">
                                             <label class="custom-file-label" for="file-d-1">Choose file</label>
                                         </div>
                                     </div>
@@ -158,7 +158,7 @@
                                         <div class="form-group row">
                                             <label for="bobot" class="col-sm-2 col-form-label">Bobot Jawaban</label>
                                             <div class="col-sm-4">
-                                                <input type="number" class="form-control" name="bobot_d[1]">
+                                                <input type="number" class="form-control" name="bobot[1][d]">
                                             </div>
                                         </div>
                                     </div>
@@ -171,13 +171,13 @@
                                         <input class="form-check-input check-input" type="radio" name="radioJawabanE[1]"
                                             value="option1" checked data-type="textarea" data-number="1" data-pilihan="e">
                                         <textarea class="form-control" id="textarea-e-1" rows="1"
-                                            name="jawaban_e[1]"></textarea>
+                                            name="jawaban[1][e]"></textarea>
                                     </div>
                                     <div class="form-check mt-1">
                                         <input class="form-check-input check-input" type="radio" name="radioJawabanE[1]"
                                             value="option2" data-type="file" data-number="1" data-pilihan="e">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file-e-1" name="jawaban_e[1]">
+                                            <input type="file" class="custom-file-input" id="file-e-1" name="jawaban[1][e]">
                                             <label class="custom-file-label" for="file-e-1">Choose file</label>
                                         </div>
                                     </div>
@@ -185,7 +185,7 @@
                                         <div class="form-group row">
                                             <label for="bobot" class="col-sm-2 col-form-label">Bobot Jawaban</label>
                                             <div class="col-sm-4">
-                                                <input type="number" class="form-control" name="bobot_e[1]">
+                                                <input type="number" class="form-control" name="bobot[1][e]">
                                             </div>
                                         </div>
                                     </div>
@@ -196,32 +196,32 @@
                                 <div class="col-md-10">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="jawaban_benar"
-                                            id="A" value="Y">
+                                            id="A" value="a">
                                         <label class="form-check-label" for="A">A</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="jawaban_benar"
-                                            id="B" value="Y">
+                                            id="B" value="b">
                                         <label class="form-check-label" for="B">B</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="jawaban_benar"
-                                            id="C" value="Y">
+                                            id="C" value="c">
                                         <label class="form-check-label" for="C">C</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="jawaban_benar"
-                                            id="D" value="Y">
+                                            id="D" value="d">
                                         <label class="form-check-label" for="D">D</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="jawaban_benar"
-                                            id="E" value="Y">
+                                            id="E" value="e">
                                         <label class="form-check-label" for="E">E</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="jawaban_benar"
-                                            id="All" value="Y">
+                                            id="All" value="i">
                                         <label class="form-check-label" for="All">Benar Semua</label>
                                     </div>
                                 </div>
