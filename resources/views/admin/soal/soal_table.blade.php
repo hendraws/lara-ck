@@ -32,11 +32,15 @@
         </tbody>
     </table>
 </div>
-<script>
-    $('p img').attr('class', 'img-fluid img-thumbnail')
-</script>
 <style>
     td p {
         display: inline;
     }
+    .mh{
+        height: 200px;
+    }
 </style>
+<script>
+    $('p img').attr('class', 'img-fluid img-thumbnail mh').removeAttr('style');
+</script>
+
