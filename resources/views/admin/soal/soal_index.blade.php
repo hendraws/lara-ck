@@ -69,6 +69,8 @@
 				}
 			})
 		}) //tutup
+        // $("img").addClass("img-responsive");
+
 
 	});
 </script>

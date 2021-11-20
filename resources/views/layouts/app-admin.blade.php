@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendors/toastr/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendors/summernote/summernote.min.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     @yield('css')
@@ -27,9 +28,10 @@
     <script src="{{ asset('vendors/toastr/toastr.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/print-this.js') }}"></script>
+    <script src="{{ asset('vendors/summernote/summernote.min.js') }}"></script>
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="sidebar-mini layout-fixed" style="height: auto;" >
     <div class="wrapper">
 
         <!-- Navbar -->
