@@ -92,7 +92,7 @@
                     <td>{{ $item->nama_mapel }}</td>
                     <td>{{ $item->getSoal->count() }}</td>
                     <td class="text-center">
-                        <a class="btn btn-xs btn-primary" href="{{ action('SoalController@show', $item) }}"   data-toggle="tooltip" data-placement="top" title="Lihat Daftar Keseluruhan Soal {{  $item->nama_mapel }}" data-id="{{ $item->id }}" >Daftar Soal</a>
+                        <a class="btn btn-xs btn-primary" href="{{ action('SoalController@show', $item) }}" data-id="{{ $item->id }}" >Daftar Soal</a>
                     </td>
                 </tr>
                 @empty
