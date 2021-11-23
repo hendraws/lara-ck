@@ -11,38 +11,10 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('input[type=file]').attr("disabled", true);
-            $(document).on('click', '.check-input', function() {
-                var type = $(this).data('type');
-                var no = $(this).data('number');
-                var pilihan = $(this).data('pilihan');
-                if (type == 'textarea') {
-                    $('#' + type + '-' + pilihan + '-' + no).attr("disabled", false)
-                    $('#file-' + pilihan + '-' + no).attr("disabled", true)
-                }
-                if (type == 'file') {
-                    $('#' + type + '-' + pilihan + '-' + no).attr("disabled", false)
-                    $('#textarea-' + pilihan + '-' + no).attr("disabled", true)
-                }
-                console.log('#' + type + '-' + pilihan + '-' + no);
-            })
-            $('#pertanyaan').summernote({
+            $('.text-editor').summernote({
                 height: 100,
             });
-            $('#textarea-a-1').summernote({
-                height: 100,
-            });
-            $('#textarea-b-1').summernote({
-                height: 100,
-            });
-            $('#textarea-c-1').summernote({
-                height: 100,
-            });
-            $('#textarea-d-1').summernote({
-                height: 100,
-            });
-            $('#textarea-e-1').summernote({
-                height: 100,
-            });
+
 
         });
     </script>

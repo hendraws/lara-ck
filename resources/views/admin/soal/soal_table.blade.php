@@ -13,8 +13,8 @@
                     <td rowspan="2">{{ $loop->index + 1 }}</td>
                     <td colspan="5">{!! $item->pertanyaan !!}</td>
                     <td rowspan="2" width="10%" class="align-middle">
-                        <a class="btn btn-xs btn-warning modal-button m-1" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('SoalController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Edit" data-id="{{ $item->id }}" style="width: 100%">Edit</a>
-                    <a href="Javascript:void(0)" class="btn btn-xs btn-danger hapus m-1" data-id="{{ $item->id }}" style="width: 100%">Hapus</a>
+                        <a class="btn btn-xs btn-warning  m-1" href="{{ action('SoalController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Edit" data-id="{{ $item->id }}" style="width: 100%">Edit</a>
+                    <a href="Javascript:void(0)" class="btn btn-xs btn-danger hapus m-1" data-url="{{ action('SoalController@destroy', $item) }}" style="width: 100%">Hapus</a>
                     </td>
                 </tr>
                 <tr>

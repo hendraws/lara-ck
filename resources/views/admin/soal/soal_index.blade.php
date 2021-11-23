@@ -34,9 +34,7 @@
         $(document).on('click','.hapus',function(e){
 			e.preventDefault();
             var tag = $(this);
-			var id = $(this).data('id');
-			var url = '{{ action('MataPelajaranController@destroy',':id') }}';
-			url = url.replace(':id',id);
+			var url = $(this).data('url');
 			Swal.fire({
 				title: 'Apakah Anda Yakin ?',
 				text: "Data akan terhapus tidak dapat dikembalikan lagi !",
@@ -60,16 +58,18 @@
 									'Your file has been deleted.',
 									'success'
 									);
-                                setTimeout(function(){ window.location = "{{ action('MataPelajaranController@index') }}"; }, 1500);
+                                setTimeout(function(){ window.location = "{{url()->full() }}"; }, 1500);
 
-							}
+							}else{
+                                Swal.fire({title: 'data.message', icon: 'warning', toast: true, position: 'top-end', showConfirmButton: false, timer: 5000, timerProgressBar: true,});
+                            }
 						}
 					});
 
 				}
 			})
 		}) //tutup
-        // $("img").addClass("img-responsive");
+
 
 
 	});

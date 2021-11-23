@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Soal;
+use App\Models\Texteditor;
 use Illuminate\Http\Request;
 use App\Models\MataPelajaran;
 use App\Models\SoalPilihanGanda;
-use App\Models\Texteditor;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class SoalController extends Controller
 {
@@ -89,7 +90,7 @@ class SoalController extends Controller
                         list(, $data)      = explode(',', $data);
 
                         $imgeData = base64_decode($data);
-                        $image_name = "/upload/jawaban/".$k. '-'. time() . $item . '.png';
+                        $image_name = "/upload/jawaban/" . $k . '-' . time() . $item . '.png';
                         $path = public_path() . $image_name;
                         file_put_contents($path, $imgeData);
 
@@ -110,15 +111,14 @@ class SoalController extends Controller
                 // dd($request);
             }
             // $mapel['created_by'] = auth()->user()->id;
-            // MataPelajaran::create($mapel);
         } catch (\Exception $e) {
             // DB::rollback();
             toastr()->error($e->getMessage(), 'Error');
-            dd($e->getMessage());
+
             return back();
         } catch (\Throwable $e) {
             // DB::rollback();
-            dd($e->getMessage());
+
             toastr()->error($e->getMessage(), 'Error');
             throw $e;
         }
@@ -152,7 +152,8 @@ class SoalController extends Controller
      */
     public function edit(Soal $soal)
     {
-        //
+        $mapel = MataPelajaran::find($soal->mata_pelajaran_id);
+        return view('admin.soal.edii_soal', compact('mapel'));
     }
 
     /**
@@ -175,7 +176,58 @@ class SoalController extends Controller
      */
     public function destroy(Soal $soal)
     {
-        //
+
+        try {
+            $contentSoal = $soal->pertanyaan;
+            $contents = new \DomDocument();
+            $contents->loadHtml($contentSoal, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $imageFileSoal = $contents->getElementsByTagName('img');
+
+            foreach ($imageFileSoal as $k => $img) {
+                $dataSoal = $img->getAttribute('src');
+
+                if (File::exists(public_path($dataSoal))) {
+                    File::delete(public_path($dataSoal));
+                }
+            }
+            // dd($soal);
+            foreach ($soal->getJawaban as $k => $v) {
+
+                $contentjawaban = $v->jawaban;
+                $dom = new \DomDocument();
+                $dom->loadHtml($contentjawaban, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                $imageFile = $dom->getElementsByTagName('img');
+
+
+                foreach ($imageFile as $item => $image) {
+                    $data = $image->getAttribute('src');
+                    if (File::exists(public_path($data))) {
+                        File::delete(public_path($data));
+                    }
+                }
+                SoalPilihanGanda::where('id', $v->id)->delete();
+                // dd($v->deleted());
+                // $v->deleted();
+            }
+            $soal->delete();
+        } catch (\Exception $e) {
+            DB::rollback();
+            toastr()->error($e->getMessage(), 'Error');
+            $result['code'] = '500';
+            $result['message'] = $e->getMessage();
+            return response()->json($result);
+        } catch (\Throwable $e) {
+            DB::rollback();
+            toastr()->error($e->getMessage(), 'Error');
+            throw $e;
+            $result['code'] = '500';
+            $result['message'] = $e->getMessage();
+            return response()->json($result);
+        }
+
+        DB::commit();
+        $result['code'] = '200';
+    	return response()->json($result);
     }
 
     public function listMapel(Request $request)
