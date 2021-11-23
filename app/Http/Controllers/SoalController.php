@@ -43,7 +43,7 @@ class SoalController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        // DB::beginTransaction();
+        DB::beginTransaction();
         try {
             for ($i = 1; $i <= count($request->pertanyaan); $i++) {
                 $contentSoal = $request->pertanyaan[$i];
@@ -112,18 +112,18 @@ class SoalController extends Controller
             }
             // $mapel['created_by'] = auth()->user()->id;
         } catch (\Exception $e) {
-            // DB::rollback();
+            DB::rollback();
             toastr()->error($e->getMessage(), 'Error');
 
             return back();
         } catch (\Throwable $e) {
-            // DB::rollback();
+            DB::rollback();
 
             toastr()->error($e->getMessage(), 'Error');
             throw $e;
         }
 
-        // DB::commit();
+        DB::commit();
         toastr()->success('Data telah ditambahkan', 'Berhasil');
         return redirect(action('SoalController@show', $request->mapel_id));
     }
@@ -153,7 +153,7 @@ class SoalController extends Controller
     public function edit(Soal $soal)
     {
         $mapel = MataPelajaran::find($soal->mata_pelajaran_id);
-        return view('admin.soal.edii_soal', compact('mapel'));
+        return view('admin.soal.edit_soal', compact('mapel','soal'));
     }
 
     /**
@@ -165,7 +165,99 @@ class SoalController extends Controller
      */
     public function update(Request $request, Soal $soal)
     {
-        //
+
+        DB::beginTransaction();
+        try {
+
+            // dd($request);
+
+                //insert gambar baru
+                $contentSoal = $request->pertanyaan;
+                $contents = new \DomDocument();
+                $contents->loadHtml($contentSoal, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                $imageFileSoal = $contents->getElementsByTagName('img');
+
+                foreach ($imageFileSoal as $k => $img) {
+                    $dataSoal = $img->getAttribute('src');
+                    $listArray = explode('/',substr($dataSoal, 0, 15));
+                    if(!in_array('upload', $listArray)){
+
+
+                    list($type, $dataSoal) = explode(';', $dataSoal);
+                    list(, $dataSoal)      = explode(',', $dataSoal);
+
+                    $imgeData = base64_decode($dataSoal);
+
+                    $image_name = "/upload/soal/" . time() . $k . '.png';
+                    $path = public_path() . $image_name;
+                    file_put_contents($path, $imgeData);
+
+                    $img->removeAttribute('src');
+                    $img->setAttribute('src', $image_name);
+                    }
+
+                }
+
+                $contentSoal = $contents->saveHTML();
+                // dd($contentSoal,  $request->mapel_id);
+                $input['mata_pelajaran_id'] = 1;
+                $input['pertanyaan'] = $contentSoal;
+                $input['jawaban_benar'] = $request->jawaban_benar;
+                $input['created_by'] = auth()->user()->id;
+                $soal->update($input);
+
+
+                foreach ($request->jawaban as $k => $v) {
+                    unset($dom, $contentjawaban);
+                    $contentjawaban = $v;
+                    $dom = new \DomDocument();
+                    $dom->loadHtml($contentjawaban, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                    $imageFile = $dom->getElementsByTagName('img');
+
+
+                    foreach ($imageFile as $item => $image) {
+                        $data = $image->getAttribute('src');
+                        $listDataArray = explode('/',substr($data, 0, 15));
+                        if(!in_array('upload', $listDataArray)){
+                            list($type, $data) = explode(';', $data);
+                            list(, $data)      = explode(',', $data);
+
+                            $imgeData = base64_decode($data);
+                            $image_name = "/upload/jawaban/" . $k . '-' . time() . $item . '.png';
+                            $path = public_path() . $image_name;
+                            file_put_contents($path, $imgeData);
+
+                            $image->removeAttribute('src');
+                            $image->setAttribute('src', $image_name);
+                        }
+
+
+                    }
+
+                    $contentjawaban = $dom->saveHTML();
+
+                    $dataJawaban['pilihan'] = $k;
+                    $dataJawaban['jawaban'] = $contentjawaban;
+                    $dataJawaban['bobot_nilai'] = $request->bobot[$k];
+                    $dataJawaban['benar'] = $request->jawaban_benar == $k ? 'Y' : 'N';
+                    SoalPilihanGanda::where('soal_id', $soal->id)->where('pilihan',$k)->update($dataJawaban);
+                }
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            toastr()->error($e->getMessage(), 'Error');
+
+            return back();
+        } catch (\Throwable $e) {
+            DB::rollback();
+
+            toastr()->error($e->getMessage(), 'Error');
+            throw $e;
+        }
+
+        DB::commit();
+        toastr()->success('Data telah diubah', 'Berhasil');
+        return redirect(action('SoalController@show', $request->mapel_id));
     }
 
     /**
@@ -176,7 +268,7 @@ class SoalController extends Controller
      */
     public function destroy(Soal $soal)
     {
-
+        DB::beginTransaction();
         try {
             $contentSoal = $soal->pertanyaan;
             $contents = new \DomDocument();

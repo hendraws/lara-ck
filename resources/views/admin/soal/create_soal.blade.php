@@ -13,6 +13,12 @@
             $('input[type=file]').attr("disabled", true);
             $('.text-editor').summernote({
                 height: 100,
+                maximumImageFileSize: 512000, // 500 KB
+                callbacks:{
+                    onImageUploadError: function(msg){
+                        Swal.fire({title: msg + ' (max: 500kb)', icon: 'warning', toast: true, position: 'top-end', showConfirmButton: false, timer: 5000, timerProgressBar: true,});
+                    }
+                }
             });
 
 
