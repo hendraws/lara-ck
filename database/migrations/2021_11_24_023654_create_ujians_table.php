@@ -16,12 +16,14 @@ class CreateUjiansTable extends Migration
         if (!Schema::hasTable('ujians')) {
             Schema::create('ujians', function (Blueprint $table) {
                 $table->id();
-                $table->integer('program_belajar_id');
+                $table->string('judul');
+                $table->integer('program_akademik_id');
                 $table->integer('kelas_id');
                 $table->datetime('waktu_mulai');
                 $table->datetime('waktu_selesai');
                 $table->string('token')->unique();
-                $table->string('judul');
+                $table->integer('created_by')->nullable();
+                $table->integer('updated_by')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kelas;
 use App\Models\Ujian;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ProgramAkademik;
+use Illuminate\Support\Facades\DB;
 
 class UjianController extends Controller
 {
@@ -26,9 +30,16 @@ class UjianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.ujian.create');
+        if($request->ajax()){
+            if($request->has('program_akademik_id')){
+                $kelas = Kelas::where('program_akademik_id', $request->program_akademik_id)->pluck('nama_kelas','id');
+                return response()->json($kelas);
+            }
+        }
+        $programAkademik = ProgramAkademik::pluck('nama_program', 'id');
+        return view('admin.ujian.create', compact('programAkademik'));
     }
 
     /**
@@ -39,7 +50,37 @@ class UjianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $inputUjian = $request->validate([
+            'judul' => 'required|string|max:255',
+            'program_akademik_id' => 'required',
+            'kelas_id' => 'required',
+            'waktu_mulai' => 'required',
+            'waktu_selesai' => 'required',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            do {
+                $token = strtoupper(Str::random(6));
+             } while ( Ujian::where( 'token', $token )->exists() );
+
+            $inputUjian['created_by'] = auth()->user()->id;
+            $inputUjian['token'] = $token;
+
+            Ujian::create($inputUjian);
+        } catch (\Exception $e) {
+            DB::rollback();
+            toastr()->error($e->getMessage(), 'Error');
+            return back();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            toastr()->error($e->getMessage(), 'Error');
+            throw $e;
+        }
+
+        DB::commit();
+        toastr()->success('Data telah ditambahkan', 'Berhasil');
+        return redirect(action('UjianController@index'));
     }
 
     /**
