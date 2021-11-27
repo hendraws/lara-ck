@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/master/matapelajaran', 'MataPelajaranController');
     Route::resource('/soal', 'SoalController');
     Route::resource('/ujian', 'UjianController');
+    Route::resource('/matapelajaran-ujian', 'UjianMataPelajaranController');
 });
 Route::view('under-contruction', 'maintance');
 Route::get('reboot', function () {

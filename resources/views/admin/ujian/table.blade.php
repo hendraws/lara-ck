@@ -25,8 +25,8 @@
                 <td>{{ 0 }}</td>
                 <td>{{ 0 }}</td>
                 <td class="text-center">
-                    <a class="btn btn-xs btn-warning modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('MataPelajaranController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Edit" data-id="{{ $item->id }}" >Tambah Mapel</a>
-                    <a class="btn btn-xs btn-warning modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('MataPelajaranController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Edit" data-id="{{ $item->id }}" >Detail</a>
+                    <a class="btn btn-xs btn-primary" href="{{ action('UjianMataPelajaranController@index') }}?ujian={{ $item->id }}"  data-target="ModalForm" data-url="{{ action('MataPelajaranController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Pengaturan" data-id="{{ $item->id }}" >Pengaturan Mapel & Soal</a>
+                    <a class="btn btn-xs btn-info modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('MataPelajaranController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Detail" data-id="{{ $item->id }}" >Detail</a>
                     <a class="btn btn-xs btn-warning modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('MataPelajaranController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Edit" data-id="{{ $item->id }}" >Edit</a>
                     <a href="Javascript:void(0)" class="btn btn-xs btn-danger hapus" data-id="{{ $item->id }}">Hapus</a>
                 </td>
