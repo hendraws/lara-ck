@@ -15,4 +15,9 @@ class UjianMataPelajaran extends Model
     {
         return $this->belongsTo(MataPelajaran::class, 'mata_pelajaran_id', 'id');
     }
+
+    public function getSoal()
+    {
+        return $this->hasMany(UjianSoal::class, 'ujian_mata_pelajaran_id','id');
+    }
 }

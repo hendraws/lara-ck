@@ -14,4 +14,8 @@ class Soal extends Model
     public function getJawaban(){
         return $this->hasMany(SoalPilihanGanda::class, 'soal_id','id');
     }
+
+    public function getJawabanBenar(){
+        return $this->hasOne(SoalPilihanGanda::class, 'soal_id','id')->where('benar','Y');
+    }
 }
