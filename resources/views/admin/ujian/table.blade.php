@@ -22,13 +22,13 @@
                 <td>{{ optional($item->getKelas)->nama_kelas }}</td>
                 <td>{{ $item->waktu_mulai }}</td>
                 <td>{{ $item->waktu_selesai }}</td>
-                <td>{{ 0 }}</td>
-                <td>{{ 0 }}</td>
+                <td class="text-center">{{ $item->get_mata_pelajaran_count }}</td>
+                <td class="text-center">{{ $item->get_soal_count }}</td>
                 <td class="text-center">
                     <a class="btn btn-xs btn-primary" href="{{ action('UjianMataPelajaranController@index') }}?ujian={{ $item->id }}"  data-target="ModalForm" data-url="{{ action('MataPelajaranController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Pengaturan" data-id="{{ $item->id }}" >Pengaturan Mapel & Soal</a>
-                    <a class="btn btn-xs btn-info modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('MataPelajaranController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Detail" data-id="{{ $item->id }}" >Detail</a>
-                    <a class="btn btn-xs btn-warning modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('MataPelajaranController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Edit" data-id="{{ $item->id }}" >Edit</a>
-                    <a href="Javascript:void(0)" class="btn btn-xs btn-danger hapus" data-id="{{ $item->id }}">Hapus</a>
+                    <a class="btn btn-xs btn-info" href="{{ action('UjianController@show', $item) }}"  data-target="ModalForm" data-url=""  data-toggle="tooltip" data-placement="top" title="Detail" data-id="{{ $item->id }}" >Detail</a>
+                    <a class="btn btn-xs btn-warning" href="{{ action('UjianController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Edit" data-id="{{ $item->id }}" >Edit</a>
+                    <a href="Javascript:void(0)" class="btn btn-xs btn-danger hapus"  data-url="{{ action('UjianController@destroy', $item) }}" >Hapus</a>
                 </td>
             </tr>
 			@empty

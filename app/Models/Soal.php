@@ -16,6 +16,6 @@ class Soal extends Model
     }
 
     public function getJawabanBenar(){
-        return $this->hasOne(SoalPilihanGanda::class, 'soal_id','id')->where('benar','Y');
+        return $this->hasOne(SoalPilihanGanda::class, 'id','jawaban_benar');
     }
 }

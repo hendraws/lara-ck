@@ -15,9 +15,9 @@
                 <td class="text-center">{{ $item->jumlah_soal }}</td>
                 <td class="text-center">{{ $item->passing_grade }}</td>
                 <td class="text-center">
-                    <a class="btn btn-xs btn-primary" href="{{ action('UjianSoalController@create') }}?ujianmapel={{ $item->id }}"   data-toggle="tooltip" data-placement="top" title="Pengaturan" data-id="{{ $item->id }}" >Tambah Soal</a>
-                    <a class="btn btn-xs btn-warning modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('MataPelajaranController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Detail" data-id="{{ $item->id }}" >Edit Passing Grade</a>
-                    <a class="btn btn-xs btn-info modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('MataPelajaranController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Detail" data-id="{{ $item->id }}" >Hapus</a>
+                    <a class="btn btn-xs btn-primary" href="{{ action('UjianSoalController@index') }}?ujianmapel={{ $item->id }}"   data-toggle="tooltip" data-placement="top" title="Detail Soal" data-id="{{ $item->id }}" >Detail Soal</a>
+                    <a class="btn btn-xs btn-warning modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('MataPelajaranController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Edit Passing Grade" data-id="{{ $item->id }}" >Edit Passing Grade</a>
+                    <a class="btn btn-xs btn-info modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('MataPelajaranController@edit', $item) }}"  data-toggle="tooltip" data-placement="top" title="Hapus" data-id="{{ $item->id }}" >Hapus</a>
                 </td>
             </tr>
 			@empty

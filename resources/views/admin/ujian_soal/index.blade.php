@@ -4,6 +4,20 @@
 <link href="{{ asset('vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+<style>
+    .mh {
+        height: 200px;
+    }
+
+    td p {
+        display: inline;
+    }
+
+    .check {
+        transform: scale(2);
+    }
+
+</style>
 @endsection
 @section('js')
 <script src="{{ asset('vendors/DataTables/datatables.min.js') }}"></script>
@@ -58,7 +72,7 @@
 									'Your file has been deleted.',
 									'success'
 									);
-                                setTimeout(function(){ window.location = "{{ action('UjianController@index') }}"; }, 1500);
+                                setTimeout(function(){ window.location = "{{ url()->full() }}"; }, 1500);
 
 							}
 						}
@@ -68,11 +82,15 @@
 			})
 		}) //tutup
 
+
+
 	});
 </script>
 @endsection
 @section('button-title')
-<a class="btn btn-sm btn-primary ml-2 float-right modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('UjianMataPelajaranController@create') }}?ujian={{ $ujian->id }}"  data-toggle="tooltip" data-placement="top" title="Tambah Mapel" data-mode="lg" >Tambah Mapel Ujian </a>
+<a class="btn btn-sm btn-primary ml-2 float-right" href="{{ action('UjianSoalController@create') }}?ujian={{ $ujianMapel->id }}"  data-target="ModalForm" data-url=""  data-toggle="tooltip" data-placement="top" title="Tambah Soal" data-mode="lg" >Tambah Soal </a>
+<a class="btn btn-sm btn-secondary ml-2 float-right" href="{{ action('UjianController@index') }}"  >Kembali </a>
+{{-- <a class="btn btn-sm btn-primary ml-2 float-right modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('UjianMataPelajaranController@create') }}?ujian={{ $ujian->id }}"  data-toggle="tooltip" data-placement="top" title="Tambah Mapel" data-mode="lg" >Tambah Mapel Ujian </a> --}}
 {{-- <button class="btn btn-primary float-right btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample"
 aria-expanded="false" aria-controls="collapseExample">
 Tambah Pengguna

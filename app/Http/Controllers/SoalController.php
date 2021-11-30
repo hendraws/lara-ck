@@ -69,9 +69,9 @@ class SoalController extends Controller
                 $contentSoal = $contents->saveHTML();
 
                 // dd($contentSoal,  $request->mapel_id);
-                $input['mata_pelajaran_id'] = 1;
+                $input['mata_pelajaran_id'] = $request->mapel_id;
                 $input['pertanyaan'] = $contentSoal;
-                $input['jawaban_benar'] = $request->jawaban_benar;
+                // $input['jawaban_benar'] = $request->jawaban_benar;
                 $input['created_by'] = auth()->user()->id;
                 $soal =  Soal::create($input);
 
@@ -104,8 +104,14 @@ class SoalController extends Controller
                     $dataJawaban['pilihan'] = $k;
                     $dataJawaban['jawaban'] = $contentjawaban;
                     $dataJawaban['bobot_nilai'] = $request->bobot[$i][$k];
-                    $dataJawaban['benar'] = $request->jawaban_benar == $k ? 'Y' : 'N';
-                    SoalPilihanGanda::create($dataJawaban);
+                    $dataJawaban['benar'] = $request->jawaban_benar == $k || $request->jawaban_benar == 'i'? 'Y' : 'N';
+                    $soalPilihanGanda = SoalPilihanGanda::create($dataJawaban);
+
+                    if($request->jawaban_benar == $k){
+                        $soal->update([
+                            'jawaban_benar' => $soalPilihanGanda->id,
+                        ]);
+                    }
                     // dd($request->bobot[$i][$k], $dataJawaban);
                 }
                 // dd($request);
@@ -113,12 +119,13 @@ class SoalController extends Controller
             // $mapel['created_by'] = auth()->user()->id;
         } catch (\Exception $e) {
             DB::rollback();
+            dd($e->getMessage());
             toastr()->error($e->getMessage(), 'Error');
 
             return back();
         } catch (\Throwable $e) {
             DB::rollback();
-
+            dd($e->getMessage());
             toastr()->error($e->getMessage(), 'Error');
             throw $e;
         }
@@ -202,7 +209,7 @@ class SoalController extends Controller
                 // dd($contentSoal,  $request->mapel_id);
                 $input['mata_pelajaran_id'] = 1;
                 $input['pertanyaan'] = $contentSoal;
-                $input['jawaban_benar'] = $request->jawaban_benar;
+                // $input['jawaban_benar'] = $request->jawaban_benar;
                 $input['created_by'] = auth()->user()->id;
                 $soal->update($input);
 
@@ -240,7 +247,13 @@ class SoalController extends Controller
                     $dataJawaban['jawaban'] = $contentjawaban;
                     $dataJawaban['bobot_nilai'] = $request->bobot[$k];
                     $dataJawaban['benar'] = $request->jawaban_benar == $k ? 'Y' : 'N';
-                    SoalPilihanGanda::where('soal_id', $soal->id)->where('pilihan',$k)->update($dataJawaban);
+                    $soalPilihanGanda = SoalPilihanGanda::where('soal_id', $soal->id)->where('pilihan',$k)->first();
+                    $soalPilihanGanda->update($dataJawaban);
+                    if($request->jawaban_benar == $k){
+                        $soal->update([
+                            'jawaban_benar' => $soalPilihanGanda->id,
+                        ]);
+                    }
                 }
 
         } catch (\Exception $e) {

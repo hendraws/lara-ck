@@ -72,14 +72,9 @@
 </script>
 @endsection
 @section('button-title')
-<a class="btn btn-sm btn-primary ml-2 float-right modal-button" href="Javascript:void(0)"  data-target="ModalForm" data-url="{{ action('UjianMataPelajaranController@create') }}?ujian={{ $ujian->id }}"  data-toggle="tooltip" data-placement="top" title="Tambah Mapel" data-mode="lg" >Tambah Mapel Ujian </a>
-{{-- <button class="btn btn-primary float-right btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample"
-aria-expanded="false" aria-controls="collapseExample">
-Tambah Pengguna
-</button> --}}
-{{-- <button class="btn btn-success float-right btn-sm mx-2" type="button" id="btnExport">
-	Export Xlsx
-</button> --}}
+<a class="btn btn-sm btn-primary ml-2 float-right modal-button" href="javascript:void(0)"  data-target="ModalForm" data-url="{{ action('UjianMataPelajaranController@create') }}?ujian={{ $ujian->id }}"  data-toggle="tooltip" data-placement="top" title="Tambah Mapel" data-mode="lg" >Tambah Mapel Ujian </a>
+<a class="btn btn-sm btn-secondary ml-2 float-right" href="{{ action('UjianController@index') }}"  >Kembali </a>
+
 @endsection
 @section('content')
 <div class="card card-accent-primary border-primary shadow-sm table-responsive">

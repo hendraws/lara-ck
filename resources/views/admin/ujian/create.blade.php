@@ -44,6 +44,7 @@
     </script>
 @endsection
 @section('button-title')
+<a class="btn btn-sm btn-secondary ml-2 float-right" href="{{ action('UjianController@index') }}"  >Kembali </a>
 @endsection
 @section('content')
     <div class="card card-accent-primary border-primary shadow-sm table-responsive">

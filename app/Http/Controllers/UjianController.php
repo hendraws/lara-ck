@@ -19,7 +19,7 @@ class UjianController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Ujian::paginate(50);
+            $data = Ujian::withCount('getMataPelajaran')->withCount('getSoal')->paginate(50);
             return view('admin.ujian.table', compact('data'));
         }
         return view('admin.ujian.index');
@@ -125,6 +125,8 @@ class UjianController extends Controller
      */
     public function destroy(Ujian $ujian)
     {
-        //
+        $ujian->delete();
+    	$result['code'] = '200';
+    	return response()->json($result);
     }
 }
