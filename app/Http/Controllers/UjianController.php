@@ -91,7 +91,9 @@ class UjianController extends Controller
      */
     public function show(Ujian $ujian)
     {
-        //
+
+
+        return view('admin.ujian.detail', compact('ujian'));
     }
 
     /**
@@ -100,9 +102,16 @@ class UjianController extends Controller
      * @param  \App\Models\Ujian  $ujian
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ujian $ujian)
+    public function edit(Request $request, Ujian $ujian)
     {
-        //
+        if($request->ajax()){
+            if($request->has('program_akademik_id')){
+                $kelas = Kelas::where('program_akademik_id', $request->program_akademik_id)->pluck('nama_kelas','id');
+                return response()->json($kelas);
+            }
+        }
+        $programAkademik = ProgramAkademik::pluck('nama_program', 'id');
+        return view('admin.ujian.edit', compact('programAkademik', 'ujian'));
     }
 
     /**
@@ -114,7 +123,38 @@ class UjianController extends Controller
      */
     public function update(Request $request, Ujian $ujian)
     {
-        //
+
+        $inputUjian = $request->validate([
+            'judul' => 'required|string|max:255',
+            'program_akademik_id' => 'required',
+            'kelas_id' => 'required',
+            'waktu_mulai' => 'required',
+            'waktu_selesai' => 'required',
+        ]);
+
+        DB::beginTransaction();
+        try {
+
+            $inputUjian['updated_by'] = auth()->user()->id;
+            $ujian->update($inputUjian);
+
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            toastr()->error($e->getMessage(), 'Error');
+
+            return back();
+        } catch (\Throwable $e) {
+            DB::rollback();
+
+            toastr()->error($e->getMessage(), 'Error');
+            throw $e;
+        }
+
+        DB::commit();
+        toastr()->success('Data telah diubah', 'Berhasil');
+
+        return redirect(action('UjianController@index'));
     }
 
     /**

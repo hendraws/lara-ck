@@ -14,6 +14,7 @@
         $(document).ready(function() {
 
             $(document).on('change', '#programAkademik', function() {
+                console.log('{{ url()->full() }}');
                 $.ajax({
                     url: "{{ url()->full() }}",
                     type: 'GET',
@@ -36,26 +37,28 @@
 
             $('.datetime').datetimepicker({
                 step: 10,
-                minTime: '06:00',
-                maxTime: '22:00',
+                minTime:'06:00',
+                maxTime:'22:00',
             });
 
         })
     </script>
 @endsection
 @section('button-title')
-    <a class="btn btn-sm btn-secondary ml-2 float-right" href="{{ action('UjianController@index') }}">Kembali </a>
+<a class="btn btn-sm btn-secondary ml-2 float-right" href="{{ action('UjianController@index') }}"  >Kembali </a>
 @endsection
 @section('content')
     <div class="card card-accent-primary border-primary shadow-sm table-responsive">
-        <form method="POST" action="{{ action('UjianController@store') }}" enctype='multipart/form-data' b>
+        <form method="POST" action="{{ action('UjianController@update', $ujian) }}" enctype='multipart/form-data' b>
             @csrf
+            @method('PUT')
             <div class="card-body">
                 <div class="form-group row">
                     <label for="judul" class="col-sm-2 col-form-label">Judul</label>
                     <div class="col-md-10">
-                        <input id="judul" type="text" class="form-control @error('judul') is-invalid @enderror" name="judul"
-                            value="{{ old('judul') }}" required autocomplete="judul" autofocus placeholder="Judul">
+                        <input id="judul" type="text" class="form-control @error('judul') is-invalid @enderror"
+                            name="judul" value="{{ $ujian->judul }}" required autocomplete="judul" autofocus
+                            placeholder="Judul">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -64,7 +67,7 @@
                         <select class="form-control select" name="program_akademik_id" id="programAkademik">
                             <option readonly selected value="">Pilih Program Akademik</option>
                             @foreach ($programAkademik as $key => $val)
-                                <option value="{{ $key }}">{{ $val }}</option>
+                                <option value="{{ $key }}" {{ $ujian->program_akademik_id == $key ? 'selected' : '' }}>{{ $val }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -73,6 +76,8 @@
                     <label for="nama_program" class="col-sm-2 col-form-label">Kelas</label>
                     <div class="col-md-10">
                         <select class="form-control select" name="kelas_id" id="kelas">
+                            <option value="{{ $ujian->kelas_id }}" selected >{{ optional($ujian->getKelas)->nama_kelas }}</option>
+
                             {{-- <option readonly selected value="">Pilih Kelas</option>
                             @foreach ($kelas as $val)
                             <option value="{{ $val->id }}" >{{ $val->nama_program }}</option>
@@ -83,19 +88,17 @@
                 <div class="form-group row">
                     <label for="waktu_mulai" class="col-sm-2 col-form-label">Waktu Mulai</label>
                     <div class="col-md-10">
-                        <input id="waktu_mulai" type="text"
-                            class="form-control @error('waktu_mulai') is-invalid @enderror datetime" name="waktu_mulai"
-                            value="{{ old('nama_mapel') }}" required autofocus placeholder="Waktu Mulai"
-                            autocomplete="off" readonly>
+                        <input id="waktu_mulai" type="text" class="form-control @error('waktu_mulai') is-invalid @enderror datetime"
+                            name="waktu_mulai" value="{{ $ujian->waktu_mulai }}" required autofocus
+                            placeholder="Waktu Mulai" autocomplete="off" readonly>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="waktu_selesai" class="col-sm-2 col-form-label">Waktu Selesai</label>
                     <div class="col-md-10">
-                        <input id="waktu_selesai" type="text"
-                            class="form-control @error('waktu_selesai') is-invalid @enderror datetime" name="waktu_selesai"
-                            value="{{ old('waktu_selesai') }}" required autofocus placeholder="Waktu Selesai"
-                            autocomplete="off" readonly>
+                        <input id="waktu_selesai" type="text" class="form-control @error('waktu_selesai') is-invalid @enderror datetime"
+                            name="waktu_selesai" value="{{ $ujian->waktu_selesai }}" required autofocus
+                            placeholder="Waktu Selesai" autocomplete="off" readonly>
                     </div>
                 </div>
                 <div class="modal-footer">

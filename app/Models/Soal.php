@@ -18,4 +18,6 @@ class Soal extends Model
     public function getJawabanBenar(){
         return $this->hasOne(SoalPilihanGanda::class, 'id','jawaban_benar');
     }
+
+
 }
