@@ -92,7 +92,6 @@ class UjianController extends Controller
     public function show(Ujian $ujian)
     {
 
-
         return view('admin.ujian.detail', compact('ujian'));
     }
 

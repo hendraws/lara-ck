@@ -5,8 +5,8 @@
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
-            <div class="card-header text-center">
-                <a href="/" class="h1">KINO CAT</a>
+            <div class="card-header text-center m-0 p-0">
+                <a href="/" class="h5"><img src="{{ asset('images/kino.png') }}" alt="Rumah Private Kino" width="300px"></a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Login</p>

@@ -23,11 +23,11 @@ class Ujian extends Model
 
     public function getMataPelajaran()
     {
-        return $this->hasMany(UjianMataPelajaran::class, 'mata_pelajaran_id', 'id');
+        return $this->hasMany(UjianMataPelajaran::class, 'ujian_id', 'id');
     }
 
     public function getSoal()
     {
-        return $this->hasManyThrough(UjianSoal::class, UjianMataPelajaran::class, 'mata_pelajaran_id', 'ujian_mata_pelajaran_id', 'id', 'id');
+        return $this->hasManyThrough(UjianSoal::class, UjianMataPelajaran::class, 'ujian_id', 'ujian_mata_pelajaran_id', 'id', 'id');
     }
 }

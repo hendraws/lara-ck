@@ -12,7 +12,7 @@
 			@forelse ($data as $item)
             <tr>
                 <td class="text-center">{{ optional($item->getMataPelajaran)->nama_mapel }}</td>
-                <td class="text-center">{{ $item->jumlah_soal }}</td>
+                <td class="text-center">{{ $item->get_soal_count }}</td>
                 <td class="text-center">{{ $item->passing_grade }}</td>
                 <td class="text-center">
                     <a class="btn btn-xs btn-primary" href="{{ action('UjianSoalController@index') }}?ujianmapel={{ $item->id }}"   data-toggle="tooltip" data-placement="top" title="Detail Soal" data-id="{{ $item->id }}" >Detail Soal</a>

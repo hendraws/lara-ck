@@ -85,109 +85,46 @@
         </div>
         <div class="card-body">
             <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+                <h5>Mata Pelajaran</h5>
+                @foreach ($ujian->getMataPelajaran as $matapelajaran)
 
-                <!-- Accordion card -->
-                <div class="card">
+                    <!-- Accordion card -->
+                    <div class="card">
 
-                    <!-- Card header -->
-                    <div class="card-header" role="tab" id="headingOne1">
-                        <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="false"
-                            aria-controls="collapseOne1" class="collapsed">
-                            <h5 class="mb-0">
-                                Collapsible Group Item #1 <i class="fas fa-angle-down rotate-icon"></i>
-                            </h5>
-                        </a>
-                    </div>
-
-                    <!-- Card body -->
-                    <div id="collapseOne1" class="collapse" role="tabpanel" aria-labelledby="headingOne1"
-                        data-parent="#accordionEx" style="">
-                        <div class="card-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                            3
-                            wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
-                            laborum
-                            eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
-                            nulla
-                            assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
-                            nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft
-                            beer
-                            farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-                            labore sustainable VHS.
+                        <!-- Card header -->
+                        <div class="card-header" role="tab" id="headingOne1">
+                            <a data-toggle="collapse" data-parent="#accordionEx"
+                                href="#collapseOne1-{{ $matapelajaran->id }}" aria-expanded="false"
+                                aria-controls="collapseOne1" class="collapsed">
+                                <h5 class="mb-0">
+                                    {{ $matapelajaran->getMataPelajaran->nama_mapel }}
+                                </h5>
+                            </a>
                         </div>
-                    </div>
 
-                </div>
-                <!-- Accordion card -->
-
-                <!-- Accordion card -->
-                <div class="card">
-
-                    <!-- Card header -->
-                    <div class="card-header" role="tab" id="headingTwo2">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo2"
-                            aria-expanded="false" aria-controls="collapseTwo2">
-                            <h5 class="mb-0">
-                                Collapsible Group Item #2 <i class="fas fa-angle-down rotate-icon"></i>
-                            </h5>
-                        </a>
-                    </div>
-
-                    <!-- Card body -->
-                    <div id="collapseTwo2" class="collapse" role="tabpanel" aria-labelledby="headingTwo2"
-                        data-parent="#accordionEx" style="">
-                        <div class="card-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                            3
-                            wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
-                            laborum
-                            eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
-                            nulla
-                            assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
-                            nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft
-                            beer
-                            farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-                            labore sustainable VHS.
+                        <!-- Card body -->
+                        <div id="collapseOne1-{{ $matapelajaran->id }}" class="collapse" role="tabpanel"
+                            aria-labelledby="headingOne1" data-parent="#accordionEx" style="">
+                            <div class="card-body">
+                                <ol>
+                                    @foreach ($matapelajaran->getSoal as $soal)
+                                        <li>{!! $soal->getSoal->pertanyaan !!} <br>
+                                            <span style="display : inline-flex">
+                                                @if(!empty(optional(optional($soal->getSoal)->getJawabanBenar)->pilihan))
+                                                Jawaban Benar : {{ optional(optional($soal->getSoal)->getJawabanBenar)->pilihan }}.{!! optional(optional($soal->getSoal)->getJawabanBenar)->jawaban !!}
+                                                @else
+                                                Benar Semua
+                                                @endif
+                                            </span>
+                                        </li>
+                                    @endforeach
+                                </ol>
+                            </div>
                         </div>
+
                     </div>
-
-                </div>
-                <!-- Accordion card -->
-
-                <!-- Accordion card -->
-                <div class="card">
-
-                    <!-- Card header -->
-                    <div class="card-header" role="tab" id="headingThree3">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree3"
-                            aria-expanded="false" aria-controls="collapseThree3">
-                            <h5 class="mb-0">
-                                Collapsible Group Item #3 <i class="fas fa-angle-down rotate-icon"></i>
-                            </h5>
-                        </a>
-                    </div>
-
-                    <!-- Card body -->
-                    <div id="collapseThree3" class="collapse" role="tabpanel" aria-labelledby="headingThree3"
-                        data-parent="#accordionEx">
-                        <div class="card-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                            3
-                            wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
-                            laborum
-                            eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
-                            nulla
-                            assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
-                            nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft
-                            beer
-                            farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-                            labore sustainable VHS.
-                        </div>
-                    </div>
-
-                </div>
-                <!-- Accordion card -->
-
+                    <!-- Accordion card -->
+                @endforeach
             </div>
         </div>
     </div>
