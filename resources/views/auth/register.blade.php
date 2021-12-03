@@ -4,7 +4,7 @@
     <div class="register-box">
         <div class="card card-outline card-warning">
             <div class="card-header text-center">
-                <a href="../../index2.html" class="h1">KINO CAT</a>
+                <a href="/" class="h5"><img src="{{ asset('images/kino.png') }}" alt="Rumah Private Kino" width="300px"></a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Register</p>

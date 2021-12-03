@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ProgramAkademik;
 
 class HomeController extends Controller
 {
@@ -28,6 +29,15 @@ class HomeController extends Controller
 
     public function cek()
     {
+        $user = auth()->user();
+        if($user->role('administrator')){
+
+        }
+        if($user->role('siswa')){
+
+            $programAkademik = ProgramAkademik::pluck('nama_program', 'id');
+            return view('siswa.home', compact('programAkademik'));
+        }
         return redirect()->action([HomeController::class, 'index']);
     }
 }

@@ -81,6 +81,16 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="durasi" class="col-sm-2 col-form-label">Durasi</label>
+                    <div class="col-md-6">
+                        <input id="durasi" type="number"
+                            class="form-control @error('durasi') is-invalid @enderror" name="durasi"
+                             required autofocus placeholder="Durasi Ujian"
+                            autocomplete="off">
+                        </div>
+                        <small class="form-text text-muted">* Menit.</small>
+                </div>
+                <div class="form-group row">
                     <label for="waktu_mulai" class="col-sm-2 col-form-label">Waktu Mulai</label>
                     <div class="col-md-10">
                         <input id="waktu_mulai" type="text"

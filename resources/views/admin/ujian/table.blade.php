@@ -6,6 +6,7 @@
 				<th scope="col">Judul</th>
 				<th scope="col">Program Akademik</th>
 				<th scope="col">Kelas</th>
+				<th scope="col">Durasi</th>
 				<th scope="col">Waktu Mulai</th>
 				<th scope="col">Waktu Selesai</th>
 				<th scope="col">Jumlah Mapel</th>
@@ -20,8 +21,9 @@
                 <td>{{ $item->judul }}</td>
                 <td>{{ optional($item->getProgramAkademik)->nama_program }}</td>
                 <td>{{ optional($item->getKelas)->nama_kelas }}</td>
-                <td>{{ $item->waktu_mulai }}</td>
-                <td>{{ $item->waktu_selesai }}</td>
+                <td class="text-right">{{ $item->durasi }} Menit</td>
+                <td class="text-right">{{ $item->waktu_mulai }}</td>
+                <td class="text-right">{{ $item->waktu_selesai }}</td>
                 <td class="text-center">{{ $item->get_mata_pelajaran_count }}</td>
                 <td class="text-center">{{ $item->get_soal_count }}</td>
                 <td class="text-center">

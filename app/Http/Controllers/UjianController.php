@@ -54,6 +54,7 @@ class UjianController extends Controller
             'judul' => 'required|string|max:255',
             'program_akademik_id' => 'required',
             'kelas_id' => 'required',
+            'durasi' => 'required',
             'waktu_mulai' => 'required',
             'waktu_selesai' => 'required',
         ]);
@@ -127,6 +128,7 @@ class UjianController extends Controller
             'judul' => 'required|string|max:255',
             'program_akademik_id' => 'required',
             'kelas_id' => 'required',
+            'durasi' => 'required',
             'waktu_mulai' => 'required',
             'waktu_selesai' => 'required',
         ]);

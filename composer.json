@@ -15,6 +15,7 @@
         "laravel/ui": "^3.3",
         "maatwebsite/excel": "^3.1",
         "spatie/laravel-permission": "^5.3",
+        "wildside/userstamps": "^2.1",
         "yoeunes/toastr": "^1.2"
     },
     "require-dev": {

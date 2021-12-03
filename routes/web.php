@@ -21,16 +21,24 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'HomeController@cek');
-    Route::get('/dashboard', 'HomeController@index')->name('home');
-    Route::resource('/manajemen-pengguna', 'UserController');
-    Route::resource('/master/program-akademik', 'ProgramAkademikController');
-    Route::resource('/master/kelas', 'KelasController');
-    Route::resource('/master/matapelajaran', 'MataPelajaranController');
-    Route::resource('/soal', 'SoalController');
-    Route::resource('/ujian', 'UjianController');
-    Route::resource('/matapelajaran-ujian', 'UjianMataPelajaranController');
-    Route::resource('/matapelajaran-ujian-soal', 'UjianSoalController');
+
+    Route::group(['middleware' => ['role:super-admin|administrator']], function () {
+        Route::get('/dashboard', 'HomeController@index')->name('home');
+        Route::resource('/manajemen-pengguna', 'UserController');
+        Route::resource('/master/program-akademik', 'ProgramAkademikController');
+        Route::resource('/master/kelas', 'KelasController');
+        Route::resource('/master/matapelajaran', 'MataPelajaranController');
+        Route::resource('/soal', 'SoalController');
+        Route::resource('/ujian', 'UjianController');
+        Route::resource('/matapelajaran-ujian', 'UjianMataPelajaranController');
+        Route::resource('/matapelajaran-ujian-soal', 'UjianSoalController');
+    });
+
+    Route::group(['middleware' => ['role:siswa']], function () {
+        Route::get('/edit-profile', 'SiswaController@editProfile');
+    });
 });
+
 Route::view('under-contruction', 'maintance');
 Route::get('reboot', function () {
     Artisan::call('view:clear');
