@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 use App\Models\ProgramAkademik;
 
@@ -27,17 +28,25 @@ class HomeController extends Controller
         return view('admin.dashboard');
     }
 
-    public function cek()
+    public function cek(Request $request)
     {
+        if($request->ajax()){
+            if($request->has('program_akademik_id')){
+                $kelas = Kelas::where('program_akademik_id', $request->program_akademik_id)->pluck('nama_kelas','id');
+                return response()->json($kelas);
+            }
+        }
+
         $user = auth()->user();
-        if($user->role('administrator')){
+        if($user->hasRole('administrator')){
 
         }
-        if($user->role('siswa')){
-
+        if($user->hasRole('siswa')){
+            $user  = auth()->user();
             $programAkademik = ProgramAkademik::pluck('nama_program', 'id');
-            return view('siswa.home', compact('programAkademik'));
+            return view('siswa.home', compact('programAkademik', 'user'));
         }
+
         return redirect()->action([HomeController::class, 'index']);
     }
 }

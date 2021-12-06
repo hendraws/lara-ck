@@ -25,6 +25,11 @@ class User extends Authenticatable
         'username',
         'kelas_id',
         'program_id',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'alamat',
+        'motto',
+        'foto',
         'is_active',
     ];
 
@@ -46,4 +51,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getProgramAkademik() {
+        return $this->belongsTo(ProgramAkademik::class, 'program_id','id');
+    }
 }

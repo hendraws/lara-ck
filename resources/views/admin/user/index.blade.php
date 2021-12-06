@@ -30,6 +30,94 @@
 
 			getDataTable(myurl, '#showTable');
 		})
+
+        $(document).on('click','.aktifkan',function(e){
+			e.preventDefault();
+            var tag = $(this);
+			var url = $(this).data('url');
+            var nama = $(this).data('nama');
+            var status = $(this).data('status');
+            if(status == 'Y'){
+                status = 'non aktifkan !';
+            }else{
+                status = 'aktifkan !';
+            }
+			Swal.fire({
+				title: 'Aktifkan Akun',
+				title: "Akun "+ nama + " akan di "+status,
+				icon: 'info',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Iya, ' + status,
+			}).then((result) => {
+				if (result.value == true) {
+					$.ajax({
+						type:'PUT',
+						url:url,
+						data:{
+							"_token": "{{ csrf_token() }}",
+						},
+						success:function(data) {
+							if (data.code == '200'){
+								Swal.fire(
+									'Berhasil!',
+									'Data Telah Di Perbarui.',
+									'Sukses'
+									);
+                                setTimeout(function(){ window.location = "{{ url()->full() }}"; }, 1500);
+
+							}
+						},
+                        error: function(data){
+                                alert(data.message);
+                            }
+					});
+
+				}
+			})
+		}) //tutup
+
+        $(document).on('click','.hapus',function(e){
+			e.preventDefault();
+            var tag = $(this);
+			var url = $(this).data('url');
+            var nama = $(this).data('nama');
+			Swal.fire({
+				title: 'Hapus Akun',
+				title: "Akun "+ nama + " akan di hapus !",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Iya, Hapus!'
+			}).then((result) => {
+				if (result.value == true) {
+					$.ajax({
+						type:'DELETE',
+						url:url,
+						data:{
+							"_token": "{{ csrf_token() }}",
+						},
+						success:function(data) {
+							if (data.code == '200'){
+								Swal.fire(
+									'Deleted!',
+									'Your file has been deleted.',
+									'success'
+									);
+                                setTimeout(function(){ window.location = "{{ url()->full() }}"; }, 1500);
+
+							}
+						},
+                        error: function(data){
+                                alert(data.message);
+                            }
+					});
+
+				}
+			})
+		}) //tutup
 	});
 </script>
 @endsection

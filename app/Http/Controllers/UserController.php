@@ -135,8 +135,41 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $manajemen_pengguna)
     {
-        //
+
+        $manajemen_pengguna->delete();
+    	$result['code'] = '200';
+    	return response()->json($result);
+    }
+
+    public function aktifkanAkun(User $manajemen_pengguna)
+    {
+        DB::beginTransaction();
+        try {
+            if($manajemen_pengguna->is_active == 'N'){
+                $status = 'Y';
+            }else{
+                $status = 'N';
+            }
+            $manajemen_pengguna->update([
+                'is_active' => $status
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            $result['code'] = '500';
+            $result['message'] = $e->getMessage();
+            return response()->json($result);
+        } catch (\Throwable $e) {
+            DB::rollback();
+            $result['code'] = '500';
+            $result['message'] = $e->getMessage();
+            return response()->json($result);
+        }
+
+        DB::commit();
+        $result['code'] = '200';
+    	return response()->json($result);
+
     }
 }

@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => ['role:super-admin|administrator']], function () {
         Route::get('/dashboard', 'HomeController@index')->name('home');
         Route::resource('/manajemen-pengguna', 'UserController');
+        Route::PUT('/manajemen-pengguna/{manajemen_pengguna}/aktifkan-akun', 'UserController@aktifkanAkun');
         Route::resource('/master/program-akademik', 'ProgramAkademikController');
         Route::resource('/master/kelas', 'KelasController');
         Route::resource('/master/matapelajaran', 'MataPelajaranController');
@@ -35,6 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['middleware' => ['role:siswa']], function () {
+        Route::post('/edit-profile/update', 'SiswaController@updateProfile');
         Route::get('/edit-profile', 'SiswaController@editProfile');
     });
 });
