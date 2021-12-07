@@ -6,6 +6,7 @@ use App\Models\Kelas;
 use App\Models\Ujian;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Models\ProgramAkademik;
 use Illuminate\Support\Facades\DB;
 
@@ -169,5 +170,22 @@ class UjianController extends Controller
         $ujian->delete();
     	$result['code'] = '200';
     	return response()->json($result);
+    }
+
+    public function ruangUjian()
+    {
+        return view('siswa.ujian.index');
+    }
+
+    public function ujianSiswa(Request $request)
+    {
+        $pengaturanUjian = Ujian::where('token', $request->token)
+                            ->whereDate('waktu_mulai' ,'<=', Carbon::now('Asia/Jakarta'))
+                            ->whereDate('waktu_selesai' ,'>=', Carbon::now('Asia/Jakarta'))
+                            ->first();
+
+        
+        dd($pengaturanUjian,$request->all(),Carbon::now('Asia/Jakarta') );
+        // return view('')
     }
 }

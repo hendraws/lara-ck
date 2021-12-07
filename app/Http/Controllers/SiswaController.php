@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ProgramAkademik;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use File;
 
 class SiswaController extends Controller
 {
@@ -19,19 +20,29 @@ class SiswaController extends Controller
             "tanggal_lahir" => 'required',
             "alamat" => 'required',
             "motto" => 'required',
+            "telepon" => 'required',
             "program_id" => 'required',
             "kelas_id" => 'required',
-            'foto' => 'required|mimes:jpeg,jpg,png|max:1024',
+            'foto' => 'mimes:jpeg,jpg,png|max:1024',
         ]);
 
 
         DB::beginTransaction();
         try {
             $user = auth()->user();
-            $extension = $request->file('foto')->extension();
-            $imgName = 'images/'.date('dmhHis').'-'.$user->name.'.'.$extension;
-            $path = Storage::putFileAs('public/', $request->file('foto'), $imgName);
-            $inputSiswa['foto'] = $path;
+
+            if($request->has('foto')){
+
+                if(!empty($user->foto)){
+                    Storage::delete($user->foto);
+                }
+
+                $extension = $request->file('foto')->extension();
+                $imgName = 'images/'.date('dmhHis').'-'.$user->name.'.'.$extension;
+                $path = Storage::putFileAs('public', $request->file('foto'), $imgName);
+                $inputSiswa['foto'] = $path;
+            }
+
             $user->update($inputSiswa);
 
         } catch (\Exception $e) {

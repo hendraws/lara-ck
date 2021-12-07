@@ -76,12 +76,12 @@
             <div class="form-group row">
                 <label for="judul" class="col-sm-2 col-form-label">Foto</label>
                 <div class="col-md-10">
-                    <img id="frame" src="{{ asset('images/profile.png') }}" width="200" height="200"
+                    <img id="frame" src="{{ empty($user->foto) ?  asset('images/profile.png') :  Storage::url($user->foto) }}" width="200" height="200"
                         class="img-thumbnail" />
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="customFile" name="foto" onchange="preview()"
                             accept="image/*">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
+                        <label class="custom-file-label" for="customFile">Pilih Foto</label>
                     </div>
                     <small class="form-text text-muted">* Ukuran Maksimal Foto 500Kb</small>
                 </div>

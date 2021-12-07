@@ -28,6 +28,7 @@ class User extends Authenticatable
         'tempat_lahir',
         'tanggal_lahir',
         'alamat',
+        'telepon',
         'motto',
         'foto',
         'is_active',
@@ -54,5 +55,9 @@ class User extends Authenticatable
 
     public function getProgramAkademik() {
         return $this->belongsTo(ProgramAkademik::class, 'program_id','id');
+    }
+
+    public function getKelas() {
+        return $this->belongsTo(Kelas::class, 'kelas_id','id');
     }
 }

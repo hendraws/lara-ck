@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/master/kelas', 'KelasController');
         Route::resource('/master/matapelajaran', 'MataPelajaranController');
         Route::resource('/soal', 'SoalController');
-        Route::resource('/ujian', 'UjianController');
+        Route::resource('/pengaturan-ujian', 'UjianController');
         Route::resource('/matapelajaran-ujian', 'UjianMataPelajaranController');
         Route::resource('/matapelajaran-ujian-soal', 'UjianSoalController');
     });
@@ -38,6 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => ['role:siswa']], function () {
         Route::post('/edit-profile/update', 'SiswaController@updateProfile');
         Route::get('/edit-profile', 'SiswaController@editProfile');
+        Route::get('/ruang-ujian', 'UjianController@ruangUjian');
+        Route::post('/ujian', 'UjianController@ujianSiswa');
     });
 });
 
