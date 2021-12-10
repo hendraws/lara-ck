@@ -60,7 +60,7 @@
             </div>
             <div class="card-footer">
                 </a>
-                <a href="{{ action('UjianController@ruangUjian') }}" class="btn btn-sm btn-warning">
+                <a href="{{ action('UjianSiswaController@ruangUjian') }}" class="btn btn-sm btn-warning">
                     <i class="fas fa-chalkboard-teacher mr-2"></i></i> Ujian
                 </a>
                 <a href="{{ url("under-contruction") }}" class="btn btn-sm btn-primary">

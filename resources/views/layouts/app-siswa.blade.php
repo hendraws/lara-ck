@@ -12,8 +12,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title>@yield('title') | KINO CAT TEST </title>
 
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendors/toastr/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendors/summernote/summernote.min.css') }}">
     <!-- Google Font: Source Sans Pro -->

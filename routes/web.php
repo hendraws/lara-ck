@@ -38,8 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => ['role:siswa']], function () {
         Route::post('/edit-profile/update', 'SiswaController@updateProfile');
         Route::get('/edit-profile', 'SiswaController@editProfile');
-        Route::get('/ruang-ujian', 'UjianController@ruangUjian');
-        Route::post('/ujian', 'UjianController@ujianSiswa');
+        Route::get('/ruang-ujian', 'UjianSiswaController@ruangUjian');
+        Route::post('/ujian', 'UjianSiswaController@ujianSiswa');
     });
 });
 
