@@ -39,7 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/edit-profile/update', 'SiswaController@updateProfile');
         Route::get('/edit-profile', 'SiswaController@editProfile');
         Route::get('/ruang-ujian', 'UjianSiswaController@ruangUjian');
-        Route::post('/ujian', 'UjianSiswaController@ujianSiswa');
+        Route::post('/ujian', 'UjianSiswaController@mulaiUjian');
+        Route::post('/ujian/ujian-siswa', 'UjianSiswaController@ujianSiswa');
     });
 });
 

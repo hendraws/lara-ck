@@ -20,7 +20,7 @@ class UjianMataPelajaranController extends Controller
     {
         $ujian = Ujian::findOrFail($request->ujian);
         if ($request->ajax()) {
-            $data = UjianMataPelajaran::with('getMataPelajaran')->withCount('getSoal')->paginate(10);
+            $data = UjianMataPelajaran::with('getMataPelajaran')->withCount('getSoal')->where('ujian_id', $request->ujian)->paginate(10);
             return view('admin.ujian_mapel.table', compact('data'));
         }
         return view('admin.ujian_mapel.index', compact('ujian'));

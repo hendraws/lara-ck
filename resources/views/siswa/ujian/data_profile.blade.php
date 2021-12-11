@@ -30,43 +30,48 @@
 
     <div class="login-box">
         <!-- /.login-logo -->
-        <div class="card card-outline card-primary">
-            <div class="card-header text-center m-0 ">
-                <h5>
-                    Ujian Computer Assisted Test (CAT) <br>
-                    Rumah Private Kino
-                </h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-4">Nama</div>
-                    <div class="col-8">: {{ auth()->user()->name }}</div>
+        <form action="{{ action('UjianSiswaController@mulaiUjian') }}" id="formUjian" method="post">
+            @csrf
+            <div class="card card-outline card-primary">
+                <div class="card-header text-center m-0 ">
+                    <h5>
+                        Ujian Computer Assisted Test (CAT) <br>
+                        Rumah Private Kino
+                    </h5>
                 </div>
-                <div class="row">
-                    <div class="col-4">Judul Ujian</div>
-                    <div class="col-8">: {{ $pengaturanUjian->judul }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4">Program Akademik</div>
-                    <div class="col-8">: {{ $pengaturanUjian->getProgramAkademik->nama_program }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4">Kelas</div>
-                    <div class="col-8">: {{ $pengaturanUjian->getKelas->nama_kelas }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4">Durasi</div>
-                    <div class="col-8">: {{ $pengaturanUjian->durasi }}</div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-12">
-                        <button class="btn btn-primary col-12" id="mulai">Mulai Ujian</button>
-                        <a href="{{ url('/') }}" class="btn btn-secondary col-12 mt-2">Kembali Ke Beranda</a>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">Nama</div>
+                        <div class="col-8">: {{ auth()->user()->name }}</div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-4">Judul Ujian</div>
+                        <div class="col-8">: {{ $pengaturanUjian->judul }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Program Akademik</div>
+                        <div class="col-8">: {{ $pengaturanUjian->getProgramAkademik->nama_program }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Kelas</div>
+                        <div class="col-8">: {{ $pengaturanUjian->getKelas->nama_kelas }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Durasi</div>
+                        <div class="col-8">: {{ $pengaturanUjian->durasi }}</div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="hidden" name="ujian" value="{{ $pengaturanUjian->id }}" >
+                            <input type="hidden" name="ujianSiswa" value="{{ $cekUjian->id }}" >
+                            <button class="btn btn-primary col-12" id="mulai">Mulai Ujian</button>
+                            <a href="{{ url('/') }}" class="btn btn-secondary col-12 mt-2">Kembali Ke Beranda</a>
+                        </div>
+                    </div>
 
-            </div>
+                </div>
+            </form>
             <!-- /.card-body -->
         </div>
         <!-- /.card -->
@@ -111,27 +116,7 @@
                     confirmButtonText: 'Iya, Mulai Ujian!'
                 }).then((result) => {
                     if (result.value == true) {
-                        $.ajax({
-                            type: 'DELETE',
-                            url: url,
-                            data: {
-                                "_token": "{{ csrf_token() }}",
-                            },
-                            success: function(data) {
-                                if (data.code == '200') {
-                                    Swal.fire(
-                                        'Deleted!',
-                                        'Your file has been deleted.',
-                                        'success'
-                                    );
-                                    setTimeout(function() {
-                                        window.location =
-                                            "{{ action('ProgramAkademikController@index') }}";
-                                    }, 1500);
-
-                                }
-                            }
-                        });
+                        $('#formUjian').submit();
 
                     }
                 })

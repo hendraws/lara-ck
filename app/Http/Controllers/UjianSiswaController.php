@@ -88,9 +88,11 @@ class UjianSiswaController extends Controller
 
     public function ruangUjian(Request $request)
     {
-        if ($request->session()->has('ujian_id')) {
+        if ($request->session()->has('ujian_id') && $request->session()->has('ujian_siswa')) {
+            $cekUjian =  UjianSiswa::find($request->session()->get('ujian_siswa'));
             $pengaturanUjian = Ujian::find($request->session()->get('ujian_id'));
-            return view('siswa.ujian.data_profile', compact('pengaturanUjian'));
+
+            return view('siswa.ujian.data_profile', compact('pengaturanUjian', 'cekUjian'));
         };
         return view('siswa.ujian.index');
     }
@@ -115,20 +117,28 @@ class UjianSiswaController extends Controller
         }
 
         $cekUjian = UjianSiswa::where('user_id', auth()->user()->id)->where('ujian_id', $pengaturanUjian->id)->first();
-        $request->session()->put('ujian_id', $pengaturanUjian->id);
-        $request->session()->put('ujian_user_id', auth()->user()->id);
 
-        if (!empty($pengaturanUjian) && !empty($cekUjian)) {
-            return view('siswa.ujian.data_profile', compact('pengaturanUjian'));
+        if (empty($cekUjian)) {
+            $cekUjian = UjianSiswa::create([
+                'user_id' => auth()->user()->id,
+                'ujian_id' => $pengaturanUjian->id,
+                'waktu_berjalan' => $pengaturanUjian->durasi,
+                'status' => 'belum-ujian',
+            ]);
         }
 
-        UjianSiswa::create([
-            'user_id' => auth()->user()->id,
-            'ujian_id' => $pengaturanUjian->id,
-            'waktu_berjalan' => $pengaturanUjian->durasi,
-            'status' => 'belum-ujian',
-        ]);
+        $request->session()->put('ujian_id', $pengaturanUjian->id);
+        $request->session()->put('ujian_user_id', auth()->user()->id);
+        $request->session()->put('ujian_siswa', $cekUjian->id);
 
-        return view('siswa.ujian.data_profile', compact('pengaturanUjian'));
+        return view('siswa.ujian.data_profile', compact('pengaturanUjian', 'cekUjian'));
+    }
+
+    public function mulaiUjian(Request $request)
+    {
+        $ujian = Ujian::find($request->ujian);
+        $ujianSiswa =  UjianSiswa::find($request->ujianSiswa);
+
+        return view('ujian.index', compact('ujian','ujianSiswa'));
     }
 }
