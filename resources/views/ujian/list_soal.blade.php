@@ -18,8 +18,8 @@
                 </ol>
             </div>
             <div class="col-12" >
-                <a href="javascript:void(0)" class="btn btn-info simpan" data-ujian="{{ $ujian->id }}" data-soal="{{ $listSoal->soal_id }}" data-urutan="{{ $loop->index + 1 }}" >Simpan & Lanjutkan</a>
-                <a href="javascript:void(0)" class="btn btn-info">Ragu</a>
+                <a href="javascript:void(0)" class="btn btn-primary simpan" data-ujian="{{ $ujian->id }}" data-soal="{{ $listSoal->soal_id }}" data-urutan="{{ $loop->index + 1 }}" >Simpan & Lanjutkan</a>
+                <a href="javascript:void(0)" class="btn btn-warning">Ragu</a>
                 <a href="javascript:void(0)" class="btn btn-info">Kosongkan Pilihan</a>
             </div>
         </div>

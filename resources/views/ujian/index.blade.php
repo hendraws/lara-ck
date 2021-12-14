@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-md-3 align-self-center text-center">
                                 <div id="countdowntimer"><span id="timer"><span></div>
-                                <a href="" class="btn btn-warning col-12">Selesai Ujian</a>
+                                <a href="" class="btn btn-danger col-12">Selesai Ujian</a>
                             </div>
                         </div>
                     </div>
@@ -94,7 +94,6 @@
                     </div>
                 </form>
             </div>
-
         </div>
 
     </div>
@@ -120,7 +119,6 @@
             urutanTerkahir = nomorUrut;
             urutanSekarang = nomorUrut;
 
-            console.log();
 
         });
 
@@ -129,6 +127,8 @@
             var noSoal = $(this).data('soal');
             var urutan = $(this).data('urutan');
             var jawaban = $("input[type='radio'][name='pilihan[" + noSoal + "]']:checked").val();
+            let urutanSelanjutnya = urutan + 1;
+
             semuaJawaban[urutan] = {
                 'soal': noSoal,
                 'jawaban': jawaban
@@ -141,17 +141,25 @@
             if(jumlahJawaban % 10 == 0){
                 alert(jumlahJawaban);
             }
-            console.log($('#timer').text())
+
+            $('#list-' + urutan).hide();
+
+            if($('#list-' + urutanSelanjutnya).length ){
+                $('#list-' + urutanSelanjutnya).show();
+            }else{
+                $('#list-' + 1).show();
+            }
             // console.log(storedNames, noSoal, jawaban, localStorage.getItem("semuaJawaban"), );
 
         });
 
 
-        $.each(storedNames, function(noSoal, jawaban) {
+        $.each(storedNames, function(urutanSoal, jawaban) {
             if (jawaban !== null) {
-                console.log(jawaban.soal);
-                $('.myCheckbox').prop('checked', true);
-                $('#pilihan-' + jawaban.jawaban).prop("checked", true)
+                $('#pilihan-' + jawaban.jawaban).prop("checked", true);
+                $("a[data-no="+urutanSoal+"]").removeClass('badge-secondary').addClass('badge-primary');
+
+
             }
         })
 
