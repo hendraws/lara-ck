@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/ruang-ujian', 'UjianSiswaController@ruangUjian');
         Route::post('/ujian', 'UjianSiswaController@mulaiUjian');
         Route::post('/ujian/ujian-siswa', 'UjianSiswaController@ujianSiswa');
+        Route::post('/ujian/ujian-siswa/store-ujian', 'UjianSiswaController@simpanData');
     });
 });
 

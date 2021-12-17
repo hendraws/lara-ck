@@ -141,4 +141,13 @@ class UjianSiswaController extends Controller
 
         return view('ujian.index', compact('ujian','ujianSiswa'));
     }
+
+    public function simpanData(Request $request)
+    {
+        dd($request);
+        $ujian = Ujian::find($request->ujian);
+        $ujianSiswa =  UjianSiswa::find($request->ujianSiswa);
+
+        return view('ujian.index', compact('ujian','ujianSiswa'));
+    }
 }

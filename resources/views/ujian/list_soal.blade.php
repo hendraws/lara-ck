@@ -3,7 +3,7 @@
         @foreach ($ujian->getSoal as $listSoal)
         <div {{ !$loop->first ? 'style=display:none;' : '' }} id="list-{{ $loop->index + 1 }}">
             <div class="col-12">
-                <li value="{{ $loop->index + 1 }}"{!! optional($listSoal->getSoal)->pertanyaan !!}</li>
+                <li value="{{ $loop->index + 1 }}"> {!! optional($listSoal->getSoal)->pertanyaan !!} </li>
             </div>
             <div class="col-12">
                 <ol type='A'>
@@ -19,8 +19,8 @@
             </div>
             <div class="col-12" >
                 <a href="javascript:void(0)" class="btn btn-primary simpan" data-ujian="{{ $ujian->id }}" data-soal="{{ $listSoal->soal_id }}" data-urutan="{{ $loop->index + 1 }}" >Simpan & Lanjutkan</a>
-                <a href="javascript:void(0)" class="btn btn-warning">Ragu</a>
-                <a href="javascript:void(0)" class="btn btn-info">Kosongkan Pilihan</a>
+                <a href="javascript:void(0)" class="btn btn-warning ragu" data-ujian="{{ $ujian->id }}" data-soal="{{ $listSoal->soal_id }}" data-urutan="{{ $loop->index + 1 }}" >Ragu</a>
+                <a href="javascript:void(0)" class="btn btn-secondary kosongkan" data-ujian="{{ $ujian->id }}" data-soal="{{ $listSoal->soal_id }}" data-urutan="{{ $loop->index + 1 }}" >Kosongkan Pilihan</a>
             </div>
         </div>
         @endforeach

@@ -176,8 +176,6 @@ class SoalController extends Controller
         DB::beginTransaction();
         try {
 
-            // dd($request);
-
                 //insert gambar baru
                 $contentSoal = $request->pertanyaan;
                 $contents = new \DomDocument();
@@ -207,7 +205,7 @@ class SoalController extends Controller
 
                 $contentSoal = $contents->saveHTML();
                 // dd($contentSoal,  $request->mapel_id);
-                $input['mata_pelajaran_id'] = 1;
+                $input['mata_pelajaran_id'] = $request->mapel_id;
                 $input['pertanyaan'] = $contentSoal;
                 // $input['jawaban_benar'] = $request->jawaban_benar;
                 $input['created_by'] = auth()->user()->id;

@@ -5,7 +5,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Hello, world!</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <title>Ujian</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('vendors/bootstrap-4/css/bootstrap.min.css') }}">
@@ -66,7 +67,7 @@
                             </div>
                             <div class="col-md-3 align-self-center text-center">
                                 <div id="countdowntimer"><span id="timer"><span></div>
-                                <a href="" class="btn btn-danger col-12">Selesai Ujian</a>
+                                <a href="javascript:void(0)" class="btn btn-danger col-12">Selesai Ujian</a>
                             </div>
                         </div>
                     </div>
@@ -86,7 +87,7 @@
             </div>
 
             <div class="col-md-9 border bagianBody">
-                <form action="#">
+                <form action="{{ action('UjianSiswaController@simpanData') }}" id="formUjian">
                     <div class="row">
                         <div class="col-12">
                             @include('ujian.list_soal')
@@ -103,81 +104,8 @@
     <script src="{{ asset('vendors/bootstrap-4/popper.min.js') }}"></script>
     <script src="{{ asset('vendors/bootstrap-4/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('vendors/countdowntimer/jquery.countdownTimer.min.js') }}"></script>
-    <script>
-        var semuaJawaban = JSON.parse(localStorage.getItem("semuaJawaban")) ?? [];
-        // console.log(semuaJawaban);
-        let urutanTerkahir = 1;
-        let urutanSekarang = 1;
-        var storedNames = JSON.parse(localStorage.getItem("semuaJawaban"));
-        let waktuBerjalan = "{{ $ujianSiswa->waktu_berjalan }}";
-        $(document).on('click', '.nomor-urutan', function() {
-            let nomorUrut = $(this).data('no');
+    <script src="{{ asset('js/ujian.js') }}"></script>
 
-            $('#list-' + urutanTerkahir).hide();
-            $('#list-' + nomorUrut).show();
-
-            urutanTerkahir = nomorUrut;
-            urutanSekarang = nomorUrut;
-
-
-        });
-
-        $('.simpan').click(function() {
-
-            var noSoal = $(this).data('soal');
-            var urutan = $(this).data('urutan');
-            var jawaban = $("input[type='radio'][name='pilihan[" + noSoal + "]']:checked").val();
-            let urutanSelanjutnya = urutan + 1;
-
-            semuaJawaban[urutan] = {
-                'soal': noSoal,
-                'jawaban': jawaban
-            };
-
-            localStorage.setItem("semuaJawaban", JSON.stringify(semuaJawaban));
-            var storedNames = JSON.parse(localStorage.getItem("semuaJawaban"));
-
-            var jumlahJawaban = storedNames.length - 1;
-            if(jumlahJawaban % 10 == 0){
-                alert(jumlahJawaban);
-            }
-
-            $('#list-' + urutan).hide();
-
-            if($('#list-' + urutanSelanjutnya).length ){
-                $('#list-' + urutanSelanjutnya).show();
-            }else{
-                $('#list-' + 1).show();
-            }
-            // console.log(storedNames, noSoal, jawaban, localStorage.getItem("semuaJawaban"), );
-
-        });
-
-
-        $.each(storedNames, function(urutanSoal, jawaban) {
-            if (jawaban !== null) {
-                $('#pilihan-' + jawaban.jawaban).prop("checked", true);
-                $("a[data-no="+urutanSoal+"]").removeClass('badge-secondary').addClass('badge-primary');
-
-
-            }
-        })
-
-        $(function() {
-            $("#timer").countdowntimer({
-                minutes:waktuBerjalan,
-                size: "lg",
-                borderColor : "#ffffff",
-                backgroundColor : "#ffffff",
-                fontColor : "#FA0909",
-                timeUp : timeisUp,
-            });
-        });
-
-        function timeisUp() {
-            alert('asdf');
-        }
-    </script>
 
 </body>
 
