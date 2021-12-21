@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ujian;
 use App\Models\UjianSiswa;
+use App\Models\UjianSiswaJawaban;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cookie;
@@ -144,10 +145,27 @@ class UjianSiswaController extends Controller
 
     public function simpanData(Request $request)
     {
-        dd($request);
-        $ujian = Ujian::find($request->ujian);
-        $ujianSiswa =  UjianSiswa::find($request->ujianSiswa);
+        $ujian = Ujian::find($request->ujian_id);
+        $ujianSiswa =  UjianSiswa::find($request->ujian_siswa_id);
 
+        $ujianSiswa->update([
+            'waktu_berjalan' => $request->sisa_waktu,
+            'status' => 'sedang_ujian',
+        ]);
+        $dataJawaban = [];
+        $now = now()->toDateTimeString();
+        UjianSiswaJawaban::where('ujian_siswa_id', $ujianSiswa->id)->delete();
+        foreach($request->pilihan as $soal => $jawaban){
+            $dataJawaban[] = [
+                'ujian_siswa_id' => $ujianSiswa->id,
+                'soal_id' => $soal,
+                'jawaban_id' => $jawaban,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+        UjianSiswaJawaban::insert($dataJawaban);
+        dd($dataJawaban, $request->toArray(), $ujianSiswa->toArray(), $ujian->toArray());
         return view('ujian.index', compact('ujian','ujianSiswa'));
     }
 }

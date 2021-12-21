@@ -2,7 +2,7 @@ var semuaJawaban = JSON.parse(localStorage.getItem("semuaJawaban")) ?? [];
 let urutanTerkahir = 1;
 let urutanSekarang = 1;
 var storedNames = JSON.parse(localStorage.getItem("semuaJawaban"));
-let waktuBerjalan = "{{ $ujianSiswa->waktu_berjalan }}";
+
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -17,11 +17,12 @@ $.each(storedNames, function (urutanSoal, jawaban) {
             $("a[data-no=" + urutanSoal + "]").removeClass('badge-secondary').addClass('badge-primary');
         }
     }
+    setProgressBar();
 })
 
 // event ketika klik nomor disamping
 $(document).on('click', '.nomor-urutan', function () {
-    console.log(urutanTerkahir);
+
     let nomorUrut = $(this).data('no');
 
     $('#list-' + urutanTerkahir).hide();
@@ -59,6 +60,7 @@ $('.simpan').click(function () {
     if ($('#list-' + urutanSelanjutnya).length) {
         $('#list-' + urutanSelanjutnya).show();
     } else {
+        urutanTerkahir = 1;
         $('#list-' + 1).show();
     }
     if($("input[type='radio'][name='pilihan[" + noSoal + "]']:checked").length > 0){
@@ -66,6 +68,7 @@ $('.simpan').click(function () {
     }else{
         $("a[data-no=" + urutan + "]").removeClass().addClass('badge badge-secondary w-100 p-1 nomor-urutan');
     }
+    setProgressBar();
     // console.log(storedNames, noSoal, jawaban, localStorage.getItem("semuaJawaban"), );
 
 });
@@ -82,14 +85,14 @@ $('.ragu').click(function () {
         'soal': noSoal,
         'jawaban': jawaban
     };
-
+    displayNone();
     localStorage.setItem("semuaJawaban", JSON.stringify(semuaJawaban));
-    var storedNames = JSON.parse(localStorage.getItem("semuaJawaban"));
 
-    var jumlahJawaban = storedNames.length - 1;
-    if (jumlahJawaban % 10 == 0) {
-        alert(jumlahJawaban);
+    var jumlahJawab = $('input:radio:checked').length;
+    if (jumlahJawab % 2 == 0) {
+        submitData();
     }
+
 
     $('#list-' + urutan).hide();
 
@@ -97,10 +100,12 @@ $('.ragu').click(function () {
         $('#list-' + urutanSelanjutnya).show();
     } else {
         $('#list-' + 1).show();
+        urutanTerkahir = 1;
     }
 
     $("a[data-no=" + urutan + "]").removeClass().addClass('badge badge-warning w-100 p-1 nomor-urutan');
     // console.log(storedNames, noSoal, jawaban, localStorage.getItem("semuaJawaban"), );
+    setProgressBar();
 
 });
 
@@ -132,17 +137,20 @@ $('.kosongkan').click(function () {
         $('#list-' + urutanSelanjutnya).show();
     } else {
         $('#list-' + 1).show();
+        urutanTerkahir = 1;
     }
 
     $("a[data-no=" + urutan + "]").removeClass().addClass('badge badge-secondary w-100 p-1 nomor-urutan');
     // console.log(storedNames, noSoal, jawaban, localStorage.getItem("semuaJawaban"), );
+    setProgressBar();
 
 });
+
 
 // fungsi timercount down
 $(function () {
     $("#timer").countdowntimer({
-        minutes: 20,
+        minutes: waktuBerjalan,
         size: "lg",
         borderColor: "#ffffff",
         backgroundColor: "#ffffff",
@@ -160,15 +168,32 @@ function timeisUp() {
 function submitData() {
     var form = $('#formUjian');
     var url = form.attr('action');
+    let timeprogress = $('#timer').text().split(":");
 
     $.ajax({
         type: "POST",
         url: url,
-        data: form.serialize(), // serializes the form's elements.
+        data: form.serialize()  + "&sisa_waktu=" + timeprogress[0], // serializes the form's elements.
         success: function (data) {
             console.log(data);
         }
     });
+}
 
+function displayNone(){
+    $('.list-soal').removeAttr("style").css("display", "none");
+}
 
+function setProgressBar() {
+
+    let jumlahJawaban = $('input[type="radio"]:checked').length;
+    let jumlahJawabanPersentase = jumlahJawaban / jumlahSeluruhSoal * 100;
+
+    $('#progress-bar').removeAttr("style").css("width", jumlahJawabanPersentase+"%").html(jumlahJawaban + " Soal");
+
+}
+
+function setTimeProgress(){
+    let timeprogress = $('#timer').text().split(":");
+    localStorage.setItem("getTimeUjian", timeprogress[0]);
 }

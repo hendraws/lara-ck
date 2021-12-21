@@ -20,6 +20,9 @@
             min-height: 85vh;
         }
 
+        p img {
+            width: 400px !important;
+        }
     </style>
 </head>
 
@@ -60,8 +63,8 @@
                         <div class="row">
                             <div class="col-md-9 align-self-center px-5">
                                 <div class="progress ">
-                                    <div class="progress-bar progress-bar-striped " role="progressbar"
-                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 5%"> 5
+                                    <div id="progress-bar" class="progress-bar progress-bar-striped " role="progressbar"
+                                        aria-valuenow="1" aria-valuemin="0" aria-valuemax="4" style="width: 5%">
                                     </div>
                                 </div>
                             </div>
@@ -93,6 +96,8 @@
                             @include('ujian.list_soal')
                         </div>
                     </div>
+                    <input type="hidden" name="ujian_id" value="{{ $ujian->id }}" >
+                    <input type="hidden" name="ujian_siswa_id" value="{{ $ujianSiswa->id }}" >
                 </form>
             </div>
         </div>
@@ -104,6 +109,11 @@
     <script src="{{ asset('vendors/bootstrap-4/popper.min.js') }}"></script>
     <script src="{{ asset('vendors/bootstrap-4/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('vendors/countdowntimer/jquery.countdownTimer.min.js') }}"></script>
+    <script>
+        let waktuBerjalan = "{{ $ujianSiswa->waktu_berjalan }}";
+        var jumlahSeluruhSoal = "{{ $ujian->getSoal->count() }}";
+
+    </script>
     <script src="{{ asset('js/ujian.js') }}"></script>
 
 

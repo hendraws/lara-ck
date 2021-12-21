@@ -1,7 +1,7 @@
 <div class="row mt-5">
     <ol>
         @foreach ($ujian->getSoal as $listSoal)
-        <div {{ !$loop->first ? 'style=display:none;' : '' }} id="list-{{ $loop->index + 1 }}">
+        <div {{ !$loop->first ? 'style=display:none;' : '' }} id="list-{{ $loop->index + 1 }}" class="list-soal">
             <div class="col-12">
                 <li value="{{ $loop->index + 1 }}"> {!! optional($listSoal->getSoal)->pertanyaan !!} </li>
             </div>
